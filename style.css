@@ -1,0 +1,11 @@
+.headline{
+    padding-top: 25px;
+}
+
+.canvas{
+    align-content: center;
+    color: rgb(6, 23, 80);
+    display: block;
+    margin: 0 auto;
+    border:5px solid;
+}

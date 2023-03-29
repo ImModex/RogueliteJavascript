@@ -1,11 +1,9 @@
-
 //without this, all functions load before the canvas
 document.addEventListener('DOMContentLoaded',domloaded,false);
 function domloaded(){
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    document.addEventListener("keyup", goFullScreen, false);
 
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -50,22 +48,6 @@ function domloaded(){
         }
     }
     
-    //deprecated, use something else
-    function goFullScreen(event){
-        if (event.keyCode == 70){
-            var canvas = document.getElementById("canvas");
-            if(canvas.requestFullScreen){
-                canvas.requestFullScreen();
-            }
-            else if(canvas.webkitRequestFullScreen){
-                canvas.webkitRequestFullScreen();
-            }
-            else if(canvas.mozRequestFullScreen){
-                canvas.mozRequestFullScreen();
-            }
-        }
-    }
-
     function draw(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         

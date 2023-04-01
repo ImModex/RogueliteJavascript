@@ -15,9 +15,18 @@ export class Canvas {
     gridWidth;
     gridHeight;
 
+    // Real canvas height and width in px
+    width;
+    height;
+
     constructor(cols, rows, name) {
         // Grab canvas element from html by id
         this.canvasElement = document.getElementById(name);
+
+        // TODO: Update in loop, not just once
+        this.canvasElement.width = window.innerWidth;
+        this.canvasElement.height = window.innerHeight;
+
         // Initialize canvas
         this.setData(cols, rows);
     }
@@ -35,5 +44,7 @@ export class Canvas {
         };
         this.gridWidth = this.canvasElement.width / cols;
         this.gridHeight = this.canvasElement.height / rows;
+        this.width = this.canvasElement.width;
+        this.height = this.canvasElement.height;
     }
 }

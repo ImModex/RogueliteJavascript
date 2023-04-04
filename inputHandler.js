@@ -9,15 +9,11 @@ export class InputHandler {
     upPressed = false;
     downPressed = false;
 
-    playerX;
-    playerY;
-
     constructor(player, canvas) {
         this.player = player;
         this.canvas = canvas;
 
-        this.playerX = this.canvas.width / 2;
-        this.playerY = this.canvas.height / 2;
+        this.player.setCoordinates(this.canvas.width / 2, this.canvas.height / 2);
 
         document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
         document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
@@ -50,47 +46,33 @@ export class InputHandler {
         }
     }
 
-    // TODO: Move this to object class
-    draw(){
-        this.canvas.drawLayer.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
+    updateCoordinates(player) {
         if (this.rightPressed) {
-            if (this.playerX >= this.canvas.width){
-                this.playerX = this.canvas.width;
+            if (player.x >= this.canvas.width){
+                player.x = this.canvas.width;
             } else {
-                this.playerX += 5;
+                player.x += player.attackSpeed;
             }
         } else if (this.leftPressed) {
-            if (this.playerX <= 0){
-                this.playerX = 0;
+            if (player.x <= 0){
+                player.x = 0;
             } else {
-                this.playerX -= 5;
+                player.x -= player.attackSpeed;
             }
         }
         
         if (this.downPressed) {
-            if (this.playerY>= this.canvas.height){
-                this.playerY = this.canvas.height;
+            if (player.y>= this.canvas.height){
+                player.y = this.canvas.height;
             } else {
-                this.playerY += 5;
+                player.y += player.attackSpeed;
             }            
         } else if (this.upPressed) {
-            if (this.playerY <= 0){
-                this.playerY = 0;
+            if (player.y <= 0){
+                player.y = 0;
             } else {
-                this.playerY -= 5;
+                player.y -= player.attackSpeed;
             }
         }
-
-        this.drawChar();
-    } 
-
-    // TODO: Move this to object class
-    drawChar(){
-        this.canvas.drawLayer.beginPath();
-        this.canvas.drawLayer.arc(this.playerX, this.playerY, 20, 0, Math.PI * 2, false);
-        this.canvas.drawLayer.fillStyle = "#0095DD";
-        this.canvas.drawLayer.fill();
-        this.canvas.drawLayer.closePath();
     }
 }

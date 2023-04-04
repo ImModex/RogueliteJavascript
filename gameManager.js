@@ -1,5 +1,6 @@
 import { Canvas } from "./canvas.js";
 import { InputHandler } from "./inputHandler.js";
+import { Player } from "./player.js";
 
 export class GameManager {
 
@@ -23,6 +24,8 @@ export class GameManager {
     constructor() {
         // Get canvas from html and initialize
         this.canvas = new Canvas(15, 9, "canvas");
+        this.playerObject = new Player("Test", 5, 5, 5);
+        this.playerObject.setCoordinates(this.canvas.width / 2, this.canvas.height / 2)
         this.inputHandler = new InputHandler(this.playerObject, this.canvas);
     }
 
@@ -38,8 +41,9 @@ export class GameManager {
         this.updateDeltaTime();
 
         // TODO: Move this to object class
-        this.inputHandler.draw();
-
+        //this.inputHandler.draw();
+        this.inputHandler.updateCoordinates(this.playerObject);
+        this.playerObject.draw(this.canvas);
         requestAnimationFrame(this.gameLoop.bind(this));
     }
 

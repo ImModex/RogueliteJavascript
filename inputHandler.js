@@ -1,7 +1,6 @@
 export class InputHandler {
 
     // Player and game canvas TODO: Change to gameManager handling
-    player;
     canvas;
 
     rightPressed = false;
@@ -9,88 +8,110 @@ export class InputHandler {
     upPressed = false;
     downPressed = false;
 
-    playerX;
-    playerY;
+    rightShotPressed = false;
+    leftShotPressed = false;
+    upShotPressed = false;
+    downShotPressed = false;
 
-    constructor(player, canvas) {
-        this.player = player;
+    constructor(canvas) {
         this.canvas = canvas;
-
-        this.playerX = this.canvas.width / 2;
-        this.playerY = this.canvas.height / 2;
 
         document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
         document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
     }
 
-    //keyCode are mapped to buttons, e.g. 39 = right arrow key
     keyDownHandler(event) {
-        if (event.keyCode === 39) {
+        // Walking with WASD
+        if (event.key === "d") {
             this.rightPressed = true;
-        } else if (event.keyCode === 37) {
+        } else if (event.key === "a") {
             this.leftPressed = true;
         }
-        if (event.keyCode === 40) {
+        if (event.key === "s") {
             this.downPressed = true;
-        } else if (event.keyCode === 38) {
+        } else if (event.key === "w") {
             this.upPressed = true;
+        }
+
+        // Shoot EventHandler
+        // Shooting with Arrow keys
+        if(event.key === "ArrowRight") {
+            // Right shot
+            this.rightShotPressed = true;
+        } else if(event.key === "ArrowLeft") {
+            // Left shot
+            this.leftShotPressed = true;
+        } else if(event.key === "ArrowDown") {
+            // Downwards shot
+            this.downShotPressed = true;
+        } else if(event.key === "ArrowUp") {
+            // Upwards shot
+            this.upShotPressed = true;
         }
     }
     
     keyUpHandler(event) {
-        if (event.keyCode === 39) {
+        if (event.key === "d") {
             this.rightPressed = false;
-        } else if (event.keyCode === 37) {
+        } else if (event.key === "a") {
             this.leftPressed = false;
         }
-        if (event.keyCode === 40) {
+        if (event.key === "s") {
             this.downPressed = false;
-        } else if (event.keyCode === 38) {
+        } else if (event.key === "w") {
             this.upPressed = false;
+        }
+
+        if(event.key === "ArrowRight") {
+            // Right shot
+            this.rightShotPressed = false;
+        } else if(event.key === "ArrowLeft") {
+            // Left shot
+            this.leftShotPressed = false;
+        } else if(event.key === "ArrowDown") {
+            // Downwards shot
+            this.downShotPressed = false;
+        } else if(event.key === "ArrowUp") {
+            // Upwards shot
+            this.upShotPressed = false;
         }
     }
 
-    // TODO: Move this to object class
-    draw(){
-        this.canvas.drawLayer.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
+    updateCoordinates(player) {
         if (this.rightPressed) {
-            if (this.playerX >= this.canvas.width){
-                this.playerX = this.canvas.width;
+            if (player.x >= this.canvas.width){
+                player.x = this.canvas.width;
             } else {
-                this.playerX += 5;
+                player.x += player.attackSpeed;
             }
         } else if (this.leftPressed) {
-            if (this.playerX <= 0){
-                this.playerX = 0;
+            if (player.x <= 0){
+                player.x = 0;
             } else {
-                this.playerX -= 5;
+                player.x -= player.attackSpeed;
             }
         }
         
         if (this.downPressed) {
-            if (this.playerY>= this.canvas.height){
-                this.playerY = this.canvas.height;
+            if (player.y>= this.canvas.height){
+                player.y = this.canvas.height;
             } else {
-                this.playerY += 5;
+                player.y += player.attackSpeed;
             }            
         } else if (this.upPressed) {
-            if (this.playerY <= 0){
-                this.playerY = 0;
+            if (player.y <= 0){
+                player.y = 0;
             } else {
-                this.playerY -= 5;
+                player.y -= player.attackSpeed;
             }
         }
+    }
 
-        this.drawChar();
-    } 
+    shootPressed() {
+        return (this.rightShotPressed || this.leftShotPressed || this.upShotPressed || this.downShotPressed);
+    }
 
-    // TODO: Move this to object class
-    drawChar(){
-        this.canvas.drawLayer.beginPath();
-        this.canvas.drawLayer.arc(this.playerX, this.playerY, 20, 0, Math.PI * 2, false);
-        this.canvas.drawLayer.fillStyle = "#0095DD";
-        this.canvas.drawLayer.fill();
-        this.canvas.drawLayer.closePath();
+    shootDirection() {
+        return this.rightShotPressed ? "right" : this.leftShotPressed ? "left" : this.upShotPressed ? "up" : this.downShotPressed ? "down" : null;
     }
 }

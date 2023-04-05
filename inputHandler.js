@@ -1,7 +1,6 @@
 export class InputHandler {
 
     // Player and game canvas TODO: Change to gameManager handling
-    player;
     canvas;
 
     rightPressed = false;
@@ -9,40 +8,72 @@ export class InputHandler {
     upPressed = false;
     downPressed = false;
 
-    constructor(player, canvas) {
-        this.player = player;
-        this.canvas = canvas;
+    rightShotPressed = false;
+    leftShotPressed = false;
+    upShotPressed = false;
+    downShotPressed = false;
 
-        this.player.setCoordinates(this.canvas.width / 2, this.canvas.height / 2);
+    constructor(canvas) {
+        this.canvas = canvas;
 
         document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
         document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
     }
 
-    //keyCode are mapped to buttons, e.g. 39 = right arrow key
     keyDownHandler(event) {
-        if (event.keyCode === 39) {
+        // Walking with WASD
+        if (event.key === "d") {
             this.rightPressed = true;
-        } else if (event.keyCode === 37) {
+        } else if (event.key === "a") {
             this.leftPressed = true;
         }
-        if (event.keyCode === 40) {
+        if (event.key === "s") {
             this.downPressed = true;
-        } else if (event.keyCode === 38) {
+        } else if (event.key === "w") {
             this.upPressed = true;
+        }
+
+        // Shoot EventHandler
+        // Shooting with Arrow keys
+        if(event.key === "ArrowRight") {
+            // Right shot
+            this.rightShotPressed = true;
+        } else if(event.key === "ArrowLeft") {
+            // Left shot
+            this.leftShotPressed = true;
+        } else if(event.key === "ArrowDown") {
+            // Downwards shot
+            this.downShotPressed = true;
+        } else if(event.key === "ArrowUp") {
+            // Upwards shot
+            this.upShotPressed = true;
         }
     }
     
     keyUpHandler(event) {
-        if (event.keyCode === 39) {
+        if (event.key === "d") {
             this.rightPressed = false;
-        } else if (event.keyCode === 37) {
+        } else if (event.key === "a") {
             this.leftPressed = false;
         }
-        if (event.keyCode === 40) {
+        if (event.key === "s") {
             this.downPressed = false;
-        } else if (event.keyCode === 38) {
+        } else if (event.key === "w") {
             this.upPressed = false;
+        }
+
+        if(event.key === "ArrowRight") {
+            // Right shot
+            this.rightShotPressed = false;
+        } else if(event.key === "ArrowLeft") {
+            // Left shot
+            this.leftShotPressed = false;
+        } else if(event.key === "ArrowDown") {
+            // Downwards shot
+            this.downShotPressed = false;
+        } else if(event.key === "ArrowUp") {
+            // Upwards shot
+            this.upShotPressed = false;
         }
     }
 
@@ -74,5 +105,13 @@ export class InputHandler {
                 player.y -= player.attackSpeed;
             }
         }
+    }
+
+    shootPressed() {
+        return (this.rightShotPressed || this.leftShotPressed || this.upShotPressed || this.downShotPressed);
+    }
+
+    shootDirection() {
+        return this.rightShotPressed ? "right" : this.leftShotPressed ? "left" : this.upShotPressed ? "up" : this.downShotPressed ? "down" : null;
     }
 }

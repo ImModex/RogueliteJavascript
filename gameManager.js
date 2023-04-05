@@ -1,6 +1,6 @@
 import { Canvas } from "./canvas.js";
-import { InputHandler } from "./inputHandler.js";
 import { Player } from "./player.js";
+import { BulletController } from "./bulletController.js";
 
 export class GameManager {
 
@@ -13,6 +13,9 @@ export class GameManager {
     // Canvas reference to draw on
     canvas = null;
 
+    // BulletController
+    bulletController = null;
+
     // Delta time, used to dynamically scale velocities and timings to frame times
     // When someone lags -> Things would move / happen slower, therefore we use deltatime
     // to compensate that by increasing speed / tick so less ticks with higher speed
@@ -24,9 +27,8 @@ export class GameManager {
     constructor() {
         // Get canvas from html and initialize
         this.canvas = new Canvas(15, 9, "canvas");
-        this.playerObject = new Player("Test", 5, 5, 5);
-        this.playerObject.setCoordinates(this.canvas.width / 2, this.canvas.height / 2)
-        this.inputHandler = new InputHandler(this.playerObject, this.canvas);
+        this.bulletController = new BulletController();
+        this.playerObject = new Player("Test", 5, 5, 5, this.bulletController, this.canvas);
     }
 
     // Initialize game and start loop
@@ -39,10 +41,12 @@ export class GameManager {
     // TODO: Test deltatime
     gameLoop() {
         this.updateDeltaTime();
+        this.canvas.drawLayer.clearRect(0, 0, canvas.width, canvas.height);
 
-        // TODO: Move this to object class
-        //this.inputHandler.draw();
-        this.inputHandler.updateCoordinates(this.playerObject);
+        this.bulletController.draw(this.canvas);
+
+        // TODO: Move this to object clas
+        this.playerObject.shoot();
         this.playerObject.draw(this.canvas);
         requestAnimationFrame(this.gameLoop.bind(this));
     }

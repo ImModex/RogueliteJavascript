@@ -1,6 +1,6 @@
 import { Canvas } from "./canvas.js";
 import { Player } from "./player.js";
-import { BulletController } from "./bulletController.js";
+import { BulletController } from "./BulletController.js";
 
 export class GameManager {
 
@@ -41,6 +41,7 @@ export class GameManager {
     // TODO: Test deltatime
     gameLoop() {
         this.updateDeltaTime();
+        this.canvas.update();
         this.canvas.drawLayer.clearRect(0, 0, canvas.width, canvas.height);
 
         this.bulletController.draw(this.canvas);

@@ -10,7 +10,6 @@ export class BulletController {
 
     shoot(x, y, speed, delay, direction) {
         if(this.timeToNextBullet <= 0) {
-            //console.log(this.x + " " + this.y);
             this.bullets.push(new Bullet(x, y, speed, direction));
             this.timeToNextBullet = delay;
         }
@@ -23,16 +22,17 @@ export class BulletController {
                 const index = this.bullets.indexOf(bullet);
                 this.bullets.splice(index, 1);
             }
+            bullet.update();
             bullet.draw(canvas);
         });
     }
 
     isOffScreen(bullet, canvas) {
         switch(bullet.direction) {
-            case "right": return bullet.x >= canvas.width + bullet.width;
-            case "left": return bullet.x <= -bullet.width;
-            case "up": return bullet.y <= -bullet.height;
-            case "down": return bullet.y >= canvas.height + bullet.height;
+            case "right": return bullet.position.x >= canvas.width + bullet.dimensions.width;
+            case "left": return bullet.position.x <= -bullet.dimensions.width;
+            case "up": return bullet.position.y <= -bullet.dimensions.height;
+            case "down": return bullet.position.y >= canvas.height + bullet.dimensions.height;
         }
         return false;
     }

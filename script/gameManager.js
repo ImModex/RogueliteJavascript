@@ -1,6 +1,6 @@
 import { Canvas } from "./canvas.js";
-import { Player } from "./player.js";
-import { BulletController } from "./BulletController.js";
+import { Player } from "./objects/player.js";
+import { BulletController } from "./objects/BulletController.js";
 
 export class GameManager {
 
@@ -28,7 +28,7 @@ export class GameManager {
         // Get canvas from html and initialize
         this.canvas = new Canvas(15, 9, "canvas");
         this.bulletController = new BulletController();
-        this.playerObject = new Player("Test", 5, 5, 5, this.bulletController, this.canvas);
+        this.playerObject = new Player("Test", this.canvas.width / 2, this.canvas.height / 2, 5, 5, 5, this.bulletController, this.canvas);
     }
 
     // Initialize game and start loop
@@ -44,9 +44,15 @@ export class GameManager {
         this.canvas.update();
         this.canvas.drawLayer.clearRect(0, 0, canvas.width, canvas.height);
 
+
         this.bulletController.draw(this.canvas);
+        this.gameObjects.forEach(object => {
+            object.update();
+            object.draw(this.canvas);
+        });
 
         // TODO: Move this to object clas
+        this.playerObject.update();
         this.playerObject.shoot();
         this.playerObject.draw(this.canvas);
         requestAnimationFrame(this.gameLoop.bind(this));
@@ -57,13 +63,6 @@ export class GameManager {
         let now = Date.now();
         this.dt = now - this.lastTick;
         this.lastTick = now;
-    }
-
-    // Draw all objects to canvas
-    drawObjects() {
-        this.gameObjects.forEach(object => {
-
-        });
     }
 
     // Check for collision between collidable objects

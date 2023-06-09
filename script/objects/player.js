@@ -1,8 +1,7 @@
-import { InputHandler } from "./inputHandler.js";
+import { InputHandler } from "../inputHandler.js";
+import { ImageObject } from "./imageObject.js";
 
-export class Player {
-    x;
-    y;
+export class Player extends ImageObject {
     name;
     healthPoints;
     damage;
@@ -10,10 +9,13 @@ export class Player {
     inputHandler;
     bulletController;
 
-    constructor(name, health, damage, attackSpeed, bulletController, canvas) {
-        // TODO: Set Player coords
-        this.x = canvas.width / 2;
-        this.y = canvas.height / 2;
+    constructor(name, x, y, health, damage, attackSpeed, bulletController, canvas) {
+        super(name, x, y, 48, 64, 192, 256, "./img/player_idle.png")
+
+        this.setBoundaryOffset(22, 17, 23, 18);
+        this.addAnimationInformation("idle", 0, 5, 3, "./img/player_idle.png");
+        this.setCurrentAnimationByName("idle");
+
         this.name = name;
         this.healthPoints = health;
         this.damage = damage;
@@ -23,22 +25,16 @@ export class Player {
         this.bulletController = bulletController;
     }
 
-    // TODO: Move this to object class
-    draw(canvas){
+    update() {
         this.inputHandler.updateCoordinates(this);
-        canvas.drawLayer.beginPath();
-        canvas.drawLayer.arc(this.x, this.y, 20, 0, Math.PI * 2, false);
-        canvas.drawLayer.fillStyle = "#0095DD";
-        canvas.drawLayer.fill();
-        canvas.drawLayer.closePath();
     }
 
-    shoot() {
+        shoot() {
         if(!this.inputHandler.shootPressed()) return;
         const bulletSpeed = 5;
         const delay = 10;
-        const bulletX = this.x + 10;
-        const bulletY = this.y;
+        const bulletX = this.position.x + 10;
+        const bulletY = this.position.y;
         this.bulletController.shoot(bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());
     }
 

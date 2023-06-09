@@ -79,30 +79,30 @@ export class InputHandler {
 
     updateCoordinates(player) {
         if (this.rightPressed) {
-            if (player.x >= this.canvas.width){
-                player.x = this.canvas.width;
+            if (player.position.x >= this.canvas.width){
+                player.position.x = this.canvas.width;
             } else {
-                player.x += player.attackSpeed;
+                player.position.x += player.attackSpeed;
             }
         } else if (this.leftPressed) {
-            if (player.x <= 0){
-                player.x = 0;
+            if (player.position.x <= 0){
+                player.position.x = 0;
             } else {
-                player.x -= player.attackSpeed;
+                player.position.x -= player.attackSpeed;
             }
         }
         
         if (this.downPressed) {
-            if (player.y>= this.canvas.height){
-                player.y = this.canvas.height;
+            if (player.position.y>= this.canvas.height){
+                player.position.y = this.canvas.height;
             } else {
-                player.y += player.attackSpeed;
+                player.position.y += player.attackSpeed;
             }            
         } else if (this.upPressed) {
-            if (player.y <= 0){
-                player.y = 0;
+            if (player.position.y <= 0){
+                player.position.y = 0;
             } else {
-                player.y -= player.attackSpeed;
+                player.position.y -= player.attackSpeed;
             }
         }
     }

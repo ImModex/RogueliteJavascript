@@ -33,6 +33,7 @@ export class ImageObject extends GameObject {
     callback;
 
 
+    // TODO: Replace with scale factor
     constructor(name, x, y, width, height, scaledWidth, scaledHeight, src) {
         super(name, x, y, width, height);
         this.dimensions.scaledWidth = scaledWidth;
@@ -53,6 +54,7 @@ export class ImageObject extends GameObject {
     
     draw(canvas) {
         if(this.isLoaded) {
+            canvas.drawLayer.imageSmoothingEnabled = false;
             this.changeFrameOfCurrentAnimation();
             canvas.drawLayer.beginPath();
             canvas.drawLayer.drawImage(this.image, this.currentSourceX, this.currentSourceY, this.dimensions.width, this.dimensions.height, this.position.x, this.position.y, this.dimensions.scaledWidth, this.dimensions.scaledHeight);

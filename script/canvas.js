@@ -29,7 +29,7 @@ export class Canvas {
 
     // Initialize and calculate canvas data
     setData(cols, rows) {
-	this.update();
+	    this.update();
         this.cols = cols;
         this.rows = rows;
         this.drawLayer = this.canvasElement.getContext("2d");
@@ -46,7 +46,7 @@ export class Canvas {
     update() {
         this.canvasElement.width = window.innerWidth;
         this.canvasElement.height = window.innerHeight;
-	this.width = window.innerWidth;
-	this.height = window.innerHeight;
+	    this.width = window.innerWidth;
+	    this.height = window.innerHeight;
     }
 }

@@ -9,12 +9,15 @@ export class Player extends ImageObject {
     inputHandler;
     bulletController;
 
+    // TODO: Player can walk through right and bottom wall lol
     constructor(name, x, y, health, damage, attackSpeed, bulletController, canvas) {
-        super(name, x, y, 48, 64, 192, 256, "./img/player_idle.png")
+        super(name, x, y, 13, 21, 195, 315, "./img/player_idle2.png")
 
-        this.setBoundaryOffset(22, 17, 23, 18);
-        this.addAnimationInformation("idle", 0, 5, 3, "./img/player_idle.png");
-        this.setCurrentAnimationByName("idle");
+        //this.setBoundaryOffset(22, -17, -23, 18);
+        this.addAnimationInformation("idle", 0, 5, 3, "./img/player_idle2.png");
+        this.setCurrentAnimationByName("idle", () => {
+            // Called when animation is done
+        });
 
         this.name = name;
         this.healthPoints = health;
@@ -29,12 +32,12 @@ export class Player extends ImageObject {
         this.inputHandler.updateCoordinates(this);
     }
 
-        shoot() {
+    shoot() {
         if(!this.inputHandler.shootPressed()) return;
         const bulletSpeed = 5;
         const delay = 10;
-        const bulletX = this.position.x + 10;
-        const bulletY = this.position.y;
+        const bulletX = this.position.x + (this.dimensions.scaledWidth / 2);
+        const bulletY = this.position.y + (this.dimensions.scaledHeight / 2);
         this.bulletController.shoot(bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());
     }
 

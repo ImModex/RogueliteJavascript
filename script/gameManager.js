@@ -1,6 +1,8 @@
 import { Canvas } from "./canvas.js";
 import { Player } from "./objects/player.js";
 import { BulletController } from "./objects/BulletController.js";
+import { InputHandler } from "./inputHandler.js";
+import { SoundManager } from "./soundManager.js";
 
 export class GameManager {
 
@@ -23,12 +25,15 @@ export class GameManager {
     dt = 0;
 
     inputHandler;
+    soundManager;
 
     constructor() {
         // Get canvas from html and initialize
         this.canvas = new Canvas(15, 9, "canvas");
         this.bulletController = new BulletController();
-        this.playerObject = new Player("Test", this.canvas.width / 2, this.canvas.height / 2, 5, 5, 5, this.bulletController, this.canvas);
+        this.inputHandler = new InputHandler(this.canvas);
+        this.soundManager = new SoundManager();
+        this.playerObject = new Player("Test", this.canvas.width / 2, this.canvas.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
     }
 
     // Initialize game and start loop
@@ -53,7 +58,6 @@ export class GameManager {
 
         // TODO: Move this to object clas
         this.playerObject.update();
-        this.playerObject.shoot();
         this.playerObject.draw(this.canvas);
         requestAnimationFrame(this.gameLoop.bind(this));
     }

@@ -10,7 +10,7 @@ export class Player extends ImageObject {
     bulletController;
 
     // TODO: Player can walk through right and bottom wall lol
-    constructor(name, x, y, health, damage, attackSpeed, bulletController, canvas) {
+    constructor(name, x, y, health, damage, attackSpeed, bulletController, canvas, inputHandler) {
         super(name, x, y, 13, 21, 195, 315, "./img/player_idle2.png")
 
         //this.setBoundaryOffset(22, -17, -23, 18);
@@ -24,12 +24,13 @@ export class Player extends ImageObject {
         this.damage = damage;
         // TODO: Change max and min attackspeed if necessary
         this.attackSpeed = (attackSpeed <= 0) ? 1 : (attackSpeed > 5) ? 5 : attackSpeed;
-        this.inputHandler = new InputHandler(canvas);
+        this.inputHandler = inputHandler;
         this.bulletController = bulletController;
     }
 
     update() {
         this.inputHandler.updateCoordinates(this);
+        this.shoot();
     }
 
     shoot() {

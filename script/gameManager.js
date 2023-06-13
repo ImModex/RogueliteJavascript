@@ -3,11 +3,14 @@ import { Player } from "./objects/player.js";
 import { BulletController } from "./objects/BulletController.js";
 import { InputHandler } from "./inputHandler.js";
 import { SoundManager } from "./soundManager.js";
+import { Enemy } from "./objects/enemy.js";
 
 export class GameManager {
 
     // Store player object
     playerObject = null;
+
+    enemyObject = null;
 
     // Store all game objects without player
     gameObjects = [];
@@ -44,6 +47,7 @@ export class GameManager {
         
 
         this.playerObject = new Player("Test", this.canvas.width / 2, this.canvas.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
+        this.enemyObject = new Enemy(this.canvas.width, this.canvas.height, 5, 5, 5);
     }
 
     // Initialize game and start loop
@@ -65,6 +69,9 @@ export class GameManager {
             object.update();
             object.draw(this.canvas);
         });
+        //console.log("Enemy1");
+        this.enemyObject.draw(this.canvas);
+        //console.log("Enemy2");
 
         // TODO: Move this to object clas
         this.playerObject.update();

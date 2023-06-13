@@ -14,7 +14,7 @@ export class Player extends ImageObject {
         super(name, x, y, 13, 21, 195, 315, "./img/player_idle2.png")
 
         //this.setBoundaryOffset(22, -17, -23, 18);
-        this.addAnimationInformation("idle", 0, 5, 3, "./img/player_idle2.png");
+        this.addAnimationInformation("idle", 0, 5, 3, "./img/player/player_idle.png");
         this.setCurrentAnimationByName("idle", () => {
             // Called when animation is done
         });

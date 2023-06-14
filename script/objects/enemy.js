@@ -5,11 +5,11 @@ export class Enemy extends ImageObject {
     damage;
     attackSpeed;
 
-    constructor(x, y, healthPoints, damage, attackSpeed) {
-        super("Enemy", x, y, 13, 21, 195, 315, "./img/player_idle.png");
+    constructor(name, x, y, healthPoints, damage, attackSpeed) {
+        super(name, x, y, 13, 21, 125, 200, "./img/player_idle2.png");
 
         //this.setBoundaryOffset(22, -17, -23, 18);
-        this.addAnimationInformation("idle", 0, 5, 3, "./img/player_idle.png");
+        this.addAnimationInformation("idle", 0, 5, 3, "./img/player_idle2.png");
         this.setCurrentAnimationByName("idle", () => {
             // Called when animation is done
         });
@@ -19,16 +19,7 @@ export class Enemy extends ImageObject {
         this.attackSpeed = attackSpeed;
     }
 
-    followPlayer(player) {
-        if(this.position.x < player.position.x) {
-            this.position.x += this.attackSpeed;
-        } else {
-            this.position.x -= this.attackSpeed;
-        }
-        if(this.position.y < player.position.y) {
-            this.position.y += this.attackSpeed;
-        } else {
-            this.position.y -= this.attackSpeed;
-        }
+    useAbility(player) {
+        
     }
 }

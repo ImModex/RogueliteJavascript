@@ -6,6 +6,8 @@ export class ImageObject extends GameObject {
     image;
     isloaded = false;
 
+    scaleFactor;
+
     // Store image object for each animation
     // e.g. "move_right" -> one object
     //       "move_left" -> other object
@@ -36,6 +38,7 @@ export class ImageObject extends GameObject {
     // TODO: Replace with scale factor
     constructor(name, x, y, width, height, scaleFactor = 1, src) {
         super(name, x, y, width, height);
+        this.scaleFactor = scaleFactor;
         this.dimensions.scaledWidth = width * scaleFactor;
         this.dimensions.scaledHeight = height * scaleFactor;
         this.image = new Image();
@@ -57,7 +60,7 @@ export class ImageObject extends GameObject {
             this.changeFrameOfCurrentAnimation();
             canvas.drawLayer.beginPath();
             canvas.drawLayer.drawImage(this.image, this.currentSourceX, this.currentSourceY, this.dimensions.width, this.dimensions.height, this.position.x, this.position.y, this.dimensions.scaledWidth, this.dimensions.scaledHeight);
-            
+
             // // check hitbox:
             // canvas.drawLayer.strokeStyle = "red";
             // canvas.drawLayer.rect(this.position.x, this.position.y, this.dimensions.scaledWidth, this.dimensions.scaledHeight);
@@ -96,14 +99,18 @@ export class ImageObject extends GameObject {
         this.currentAnimationFrame++;      
     }
 
-    addAnimationInformation(name, startFrame, endFrame, fps, src) {
+    addAnimationInformation(name, width, height, startFrame, endFrame, fps, src) {
         let image = new Image();                                            // saves images of animations in cache --> doesnt have to load new image every single time
         image.src = src;
         image.addEventListener("load", () => {
             this.isLoaded = true;
-            this.animations[name].columns = image.naturalWidth / this.dimensions.width;
+            this.animations[name].columns = image.naturalWidth / width;
             this.animations[name].image = image;
-            this.animations[name].rows = image.naturalHeight / this.dimensions.height;
+            this.animations[name].rows = image.naturalHeight / height;
+            this.animations[name].dimensions = {
+                "width": width,
+                "height": height
+            }
         });
         let animationInformation = {
             "startFrame": startFrame,
@@ -111,9 +118,19 @@ export class ImageObject extends GameObject {
             "fps": fps,
             "image": this.image,
             "columns": 1,                   // standard value, will be overriten as soon as objects are updated (eg on collision, key input, etc)
-            "rows": 1
+            "rows": 1,
+            "dimensions": {
+                "height": height,
+                "width": width
+            }
         };
         this.animations[name] = animationInformation;
+    }
+
+    setCurrentAnimationByNameIfNotPlaying(name, callback) {
+        if(this.currentAnimationName === name) return;
+
+        this.setCurrentAnimationByName(name, callback);
     }
 
     setCurrentAnimationByName(name, callback) {
@@ -126,6 +143,12 @@ export class ImageObject extends GameObject {
         this.columns = this.animations[name].columns;
         this.rows = this.animations[name].rows;
         this.currentAnimationName = name;                   // saved so we can use later in update --> so we know which animation is needed
+
+        this.dimensions.width = this.animations[name].dimensions.width;
+        this.dimensions.height = this.animations[name].dimensions.height;
+
+        this.dimensions.scaledWidth = this.animations[name].dimensions.width * this.scaleFactor;
+        this.dimensions.scaledHeight = this.animations[name].dimensions.height * this.scaleFactor;
 
         this.frameCount = Number.MAX_VALUE;
     }

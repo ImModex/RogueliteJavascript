@@ -42,14 +42,16 @@ export class GameManager {
         // Add sound named "oof" with source
         // When sound is loaded, play it and loop = true
         // When sound is done playing (every time it is done playing if loop = true), execute callback
+        /*
         this.soundManager.addSound("oof", "./sound/oof.mp3").then(() => {
             this.soundManager.play("oof", true, () => { console.log("hi"); this.soundManager.stop(); this.soundManager.play("oof", false, () => console.log(2)); });
         });
+        */
         
 
         this.playerObject = new Player("Test", screen.width / 2, screen.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
         //this.enemyObjects = new Zombie(this.canvas.width/4, this.canvas.width/4);
-        this.enemyObjects.push(new Zombie(this.canvas.width/4, this.canvas.width/4));
+        this.enemyObjects.push(new Zombie(screen.width / 4, screen.height / 4));
         //this.enemyObjects.push(new Zombie(this.canvas.width/3, this.canvas.width/3));
     }
 

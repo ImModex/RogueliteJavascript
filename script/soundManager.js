@@ -50,7 +50,6 @@ export class SoundManager {
 
         if(loop) {
             this.callbackInterval = setInterval(callback, sound.duration * 1000);
-            console.log(sound.duration);
         } else {
             setTimeout(() => {
                 callback();

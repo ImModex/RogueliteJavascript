@@ -5,14 +5,8 @@ export class Enemy extends ImageObject {
     damage;
     attackSpeed;
 
-    constructor(name, x, y, healthPoints, damage, attackSpeed) {
-        super(name, x, y, 13, 21, 10, "./img/player_idle2.png");
-
-        //this.setBoundaryOffset(22, -17, -23, 18);
-        this.addAnimationInformation("idle", 0, 5, 3, "./img/player_idle2.png");
-        this.setCurrentAnimationByName("idle", () => {
-            // Called when animation is done
-        });
+    constructor(name, x, y, width, height, scaleFactor, sprite, healthPoints, damage, attackSpeed) {
+        super(name, x, y, width, height, scaleFactor, sprite);
 
         this.healthPoints = healthPoints;
         this.damage = damage;

@@ -2,7 +2,13 @@ import { Enemy } from "./enemy.js";
 
 export class Zombie extends Enemy {
     constructor(x, y) {
-        super("Zombie", x, y, 5, 2, 1);
+        super("Zombie", x, y, 13, 21, 10, "./img/player/player_idle.png", 5, 2, 1);
+
+        //this.setBoundaryOffset(22, -17, -23, 18);
+        this.addAnimationInformation("idle", 13, 21, 0, 5, 3, "./img/player/player_idle.png");
+        this.setCurrentAnimationByName("idle", () => {
+            // Called when animation is done
+        });
     }
 
     // TODO: add special abilities for zombie

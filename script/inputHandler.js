@@ -79,12 +79,14 @@ export class InputHandler {
 
     updateCoordinates(player) {
         if (this.rightPressed) {
+            player.setCurrentAnimationByNameIfNotPlaying("right");
             if (player.boundaries.rightBoundary() >= this.canvas.width){
                 player.position.x = this.canvas.width - player.dimensions.scaledWidth;
             } else {
                 player.position.x += player.attackSpeed;
             }
         } else if (this.leftPressed) {
+            player.setCurrentAnimationByNameIfNotPlaying("left");
             if (player.position.x <= 0){
                 player.position.x = 0;
             } else {
@@ -93,17 +95,23 @@ export class InputHandler {
         }
         
         if (this.downPressed) {
+            player.setCurrentAnimationByNameIfNotPlaying("down");
             if (player.boundaries.bottomBoundary() >= this.canvas.height){
                 player.position.y = this.canvas.height - player.dimensions.scaledHeight;
             } else {
                 player.position.y += player.attackSpeed;
             }            
         } else if (this.upPressed) {
+            player.setCurrentAnimationByNameIfNotPlaying("up");
             if (player.position.y <= 0){
                 player.position.y = 0;
             } else {
                 player.position.y -= player.attackSpeed;
             }
+        }
+
+        if(!this.rightPressed && !this.leftPressed && !this.downPressed && !this.upPressed) {
+            player.setCurrentAnimationByNameIfNotPlaying("idle");
         }
     }
 

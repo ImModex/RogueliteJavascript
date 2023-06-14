@@ -11,7 +11,7 @@ export class Player extends ImageObject {
 
     // TODO: Player can walk through right and bottom wall lol
     constructor(name, x, y, health, damage, attackSpeed, bulletController, canvas, inputHandler) {
-        super(name, x, y, 13, 21, 195, 315, "./img/player_idle2.png")
+        super(name, x, y, 13, 21, 125, 200, "./img/player_idle2.png");
 
         //this.setBoundaryOffset(22, -17, -23, 18);
         this.addAnimationInformation("idle", 0, 5, 3, "./img/player_idle2.png");

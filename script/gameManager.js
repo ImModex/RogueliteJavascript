@@ -3,11 +3,15 @@ import { Player } from "./objects/player.js";
 import { BulletController } from "./objects/BulletController.js";
 import { InputHandler } from "./inputHandler.js";
 import { SoundManager } from "./soundManager.js";
+import { Enemy } from "./objects/enemy.js";
+import { Zombie } from "./objects/zombie.js";
 
 export class GameManager {
 
     // Store player object
     playerObject = null;
+
+    enemyObjects = [];
 
     // Store all game objects without player
     gameObjects = [];
@@ -44,6 +48,9 @@ export class GameManager {
         
 
         this.playerObject = new Player("Test", this.canvas.width / 2, this.canvas.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
+        //this.enemyObjects = new Zombie(this.canvas.width/4, this.canvas.width/4);
+        this.enemyObjects.push(new Zombie(this.canvas.width/4, this.canvas.width/4));
+        //this.enemyObjects.push(new Zombie(this.canvas.width/3, this.canvas.width/3));
     }
 
     // Initialize game and start loop
@@ -64,6 +71,11 @@ export class GameManager {
         this.gameObjects.forEach(object => {
             object.update();
             object.draw(this.canvas);
+        });
+        
+        this.enemyObjects.forEach(enemy => {
+            enemy.useAbility(this.playerObject);
+            enemy.draw(this.canvas);
         });
 
         // TODO: Move this to object clas

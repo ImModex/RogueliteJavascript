@@ -5,6 +5,10 @@ export class Zombie extends Enemy {
         super("Zombie", x, y, 5, 2, 1);
     }
 
+    useAbility(player) {
+        this.followPlayer(player);
+    }
+
     // TODO: add special abilities for zombie
     followPlayer(player) {
         if(this.position.x < player.position.x) {
@@ -17,9 +21,5 @@ export class Zombie extends Enemy {
         } else {
             this.position.y -= this.attackSpeed;
         }
-    }
-
-    useAbility(player) {
-        this.followPlayer(player);
     }
 }

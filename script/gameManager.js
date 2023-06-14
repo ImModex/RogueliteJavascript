@@ -3,14 +3,15 @@ import { Player } from "./objects/player.js";
 import { BulletController } from "./objects/BulletController.js";
 import { InputHandler } from "./inputHandler.js";
 import { SoundManager } from "./soundManager.js";
-import { Enemy } from "./objects/enemy.js";
 import { Zombie } from "./objects/zombie.js";
+import { Shootable } from "./objects/shootable.js";
 
 export class GameManager {
 
     // Store player object
     playerObject = null;
 
+    // Store enemy objects
     enemyObjects = [];
 
     // Store all game objects without player
@@ -48,9 +49,9 @@ export class GameManager {
         
 
         this.playerObject = new Player("Test", this.canvas.width / 2, this.canvas.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
-        //this.enemyObjects = new Zombie(this.canvas.width/4, this.canvas.width/4);
+
         this.enemyObjects.push(new Zombie(this.canvas.width/4, this.canvas.width/4));
-        //this.enemyObjects.push(new Zombie(this.canvas.width/3, this.canvas.width/3));
+        this.enemyObjects.push(new Shootable(this.canvas.width/3, this.canvas.height/3, this.bulletController));
     }
 
     // Initialize game and start loop

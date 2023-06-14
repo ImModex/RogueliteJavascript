@@ -59,9 +59,9 @@ export class ImageObject extends GameObject {
             canvas.drawLayer.drawImage(this.image, this.currentSourceX, this.currentSourceY, this.dimensions.width, this.dimensions.height, this.position.x, this.position.y, this.dimensions.scaledWidth, this.dimensions.scaledHeight);
             
             // // check hitbox:
-            // gameManager.canvas.drawingContext.strokeStyle = "white";
-            // gameManager.canvas.drawingContext.rect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
-            // gameManager.canvas.drawingContext.stroke();
+            // canvas.drawLayer.strokeStyle = "red";
+            // canvas.drawLayer.rect(this.position.x, this.position.y, this.dimensions.scaledWidth, this.dimensions.scaledHeight);
+            // canvas.drawLayer.stroke();
             
             canvas.drawLayer.closePath();
         }

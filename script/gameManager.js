@@ -47,7 +47,7 @@ export class GameManager {
         });
         
 
-        this.playerObject = new Player("Test", screen.width / 16, screen.height / 16, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
+        this.playerObject = new Player("Test", screen.width / 2, screen.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
         //this.enemyObjects = new Zombie(this.canvas.width/4, this.canvas.width/4);
         this.enemyObjects.push(new Zombie(this.canvas.width/4, this.canvas.width/4));
         //this.enemyObjects.push(new Zombie(this.canvas.width/3, this.canvas.width/3));

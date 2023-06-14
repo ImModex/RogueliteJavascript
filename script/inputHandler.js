@@ -79,8 +79,8 @@ export class InputHandler {
 
     updateCoordinates(player) {
         if (this.rightPressed) {
-            if (player.position.x >= this.canvas.width){
-                player.position.x = this.canvas.width;
+            if (player.boundaries.rightBoundary() >= this.canvas.width){
+                player.position.x = this.canvas.width - player.dimensions.scaledWidth;
             } else {
                 player.position.x += player.attackSpeed;
             }
@@ -93,8 +93,8 @@ export class InputHandler {
         }
         
         if (this.downPressed) {
-            if (player.position.y>= this.canvas.height){
-                player.position.y = this.canvas.height;
+            if (player.boundaries.bottomBoundary() >= this.canvas.height){
+                player.position.y = this.canvas.height - player.dimensions.scaledHeight;
             } else {
                 player.position.y += player.attackSpeed;
             }            

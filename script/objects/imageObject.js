@@ -34,10 +34,10 @@ export class ImageObject extends GameObject {
 
 
     // TODO: Replace with scale factor
-    constructor(name, x, y, width, height, scaledWidth, scaledHeight, src) {
+    constructor(name, x, y, width, height, scaleFactor = 1, src) {
         super(name, x, y, width, height);
-        this.dimensions.scaledWidth = scaledWidth;
-        this.dimensions.scaledHeight = scaledHeight;
+        this.dimensions.scaledWidth = width * scaleFactor;
+        this.dimensions.scaledHeight = height * scaleFactor;
         this.image = new Image();
         
         this.image.addEventListener("load", () => {             // only for walls (no animations)
@@ -54,7 +54,6 @@ export class ImageObject extends GameObject {
     
     draw(canvas) {
         if(this.isLoaded) {
-            canvas.drawLayer.imageSmoothingEnabled = false;
             this.changeFrameOfCurrentAnimation();
             canvas.drawLayer.beginPath();
             canvas.drawLayer.drawImage(this.image, this.currentSourceX, this.currentSourceY, this.dimensions.width, this.dimensions.height, this.position.x, this.position.y, this.dimensions.scaledWidth, this.dimensions.scaledHeight);

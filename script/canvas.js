@@ -29,7 +29,11 @@ export class Canvas {
 
     // Initialize and calculate canvas data
     setData(cols, rows) {
-	    this.update();
+	    this.canvasElement.width = screen.width;
+        this.canvasElement.height = screen.height;
+	    this.width = screen.width;
+	    this.height = screen.height;
+        
         this.cols = cols;
         this.rows = rows;
         this.drawLayer = this.canvasElement.getContext("2d");
@@ -41,12 +45,7 @@ export class Canvas {
         };
         this.gridWidth = this.canvasElement.width / cols;
         this.gridHeight = this.canvasElement.height / rows;
-    }
 
-    update() {
-        this.canvasElement.width = window.innerWidth;
-        this.canvasElement.height = window.innerHeight;
-	    this.width = window.innerWidth;
-	    this.height = window.innerHeight;
+        this.drawLayer.imageSmoothingEnabled = false;
     }
 }

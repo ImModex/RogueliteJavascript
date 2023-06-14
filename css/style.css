@@ -19,4 +19,7 @@ html, body {
     /*  Disable scrollbars */
     display: block;
     /* No floating content on sides */
+    background-image: url("../img/map/grassArea32x9.png");
+    background-repeat: no-repeat;
+    background-size:cover;
 }

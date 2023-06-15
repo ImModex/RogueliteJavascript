@@ -20,12 +20,12 @@ export class Zombie extends Enemy {
     followPlayer() {
         if(this.position.x < this.player.position.x) {
             this.position.x += this.attackSpeed;
-        } else {
+        } else if(this.position.x > this.player.position.x) {
             this.position.x -= this.attackSpeed;
         }
         if(this.position.y < this.player.position.y) {
             this.position.y += this.attackSpeed;
-        } else {
+        } else if(this.position.y > this.player.position.y) {
             this.position.y -= this.attackSpeed;
         }
     }

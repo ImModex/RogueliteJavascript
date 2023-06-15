@@ -4,16 +4,23 @@ export class BulletController {
     bullets = [];
     timeToNextBullet = 0;
 
+    times = [];
+
     constructor() {
         
     }
 
-    shoot(x, y, speed, delay, direction) {
-        if(this.timeToNextBullet <= 0) {
+    update() {
+        Object.keys(this.times).forEach(key => {
+            this.times[key]--;
+        });
+    }     
+
+    shoot(object, x, y, speed, delay, direction) {
+        if(this.times[object] <= 0 || !this.times[object]) {
             this.bullets.push(new Bullet(x, y, speed, direction));
-            this.timeToNextBullet = delay;
+            this.times[object] = delay;
         }
-        this.timeToNextBullet--; 
     }
 
     draw(canvas) {

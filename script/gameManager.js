@@ -67,6 +67,7 @@ export class GameManager {
         this.updateDeltaTime();
         this.canvas.drawLayer.clearRect(0, 0, canvas.width, canvas.height);
 
+        this.bulletController.update();
         this.bulletController.draw(this.canvas);
         this.gameObjects.forEach(object => {
             object.update();

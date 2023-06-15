@@ -19,7 +19,7 @@ export class Shooting extends Enemy {
         // TODO: Move x position??
         if(this.player.position.y < this.position.y) {
             this.position.y -= this.attackSpeed;
-        } else {
+        } else if(this.player.position.y > this.position.y) {
             this.position.y += this.attackSpeed;
         }
     }
@@ -31,6 +31,6 @@ export class Shooting extends Enemy {
         if(this.player.position.x > this.position.x) {
             shootDirection = "right";
         }
-        this.bulletController.shoot(bulletX, bulletY, 3, 100, shootDirection);
+        this.bulletController.shoot(this.name, bulletX, bulletY, 3, 100, shootDirection);
     }
 }

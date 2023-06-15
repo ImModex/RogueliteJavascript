@@ -6,8 +6,11 @@ import { SoundManager } from "./soundManager.js";
 import { Zombie } from "./objects/zombie.js";
 import { Shooting } from "./objects/shooting.js";
 import { drawHealthBar } from "./userinterface.js";
+import { Level } from "./level.js";
 
 export class GameManager {
+
+    level = null;
 
     // Store player object
     playerObject = null;
@@ -36,9 +39,11 @@ export class GameManager {
     constructor() {
         // Get canvas from html and initialize
         this.canvas = new Canvas(16, 9, "canvas");
-        this.bulletController = new BulletController();
+        //this.bulletController = new BulletController();
         this.inputHandler = new InputHandler(this.canvas);
         this.soundManager = new SoundManager();
+
+        this.level = new Level(2, this.canvas);
 
 
         // Add sound named "oof" with source
@@ -50,10 +55,10 @@ export class GameManager {
         });
         */
         
-        this.playerObject = new Player("Test", screen.width / 2, screen.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
+        //this.playerObject = new Player("Test", screen.width / 2, screen.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
 
-        this.enemyObjects.push(new Zombie(screen.width / 4, screen.height / 4, this.playerObject));
-        this.enemyObjects.push(new Shooting(screen.width / 3, screen.height / 3, this.playerObject, this.bulletController));
+        //this.enemyObjects.push(new Zombie(screen.width / 4, screen.height / 4, this.playerObject));
+        //this.enemyObjects.push(new Shooting(screen.width / 3, screen.height / 3, this.playerObject, this.bulletController));
     }
 
     // Initialize game and start loop
@@ -67,24 +72,8 @@ export class GameManager {
     gameLoop() {
         this.updateDeltaTime();
         this.canvas.drawLayer.clearRect(0, 0, canvas.width, canvas.height);
-
-        this.bulletController.update();
-        this.bulletController.draw(this.canvas);
-        this.gameObjects.forEach(object => {
-            object.update();
-            object.draw(this.canvas);
-        });
-        
-        this.enemyObjects.forEach(enemy => {
-            enemy.update();
-            enemy.draw(this.canvas);
-        });
-
-        // TODO: Move this to object clas
-        this.playerObject.update();
-        this.playerObject.draw(this.canvas);
-
-        drawHealthBar(this.canvas, this.playerObject);
+ 
+        this.level.update();
 
         requestAnimationFrame(this.gameLoop.bind(this));
     }

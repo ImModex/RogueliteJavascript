@@ -3,8 +3,8 @@ import { Enemy } from "./enemy.js";
 export class Shooting extends Enemy {
     bulletController;
 
-    constructor(player, x, y, bulletController) {
-        super(player, "Shootable", x, y, 5, 5, 1);
+    constructor(x, y, player, bulletController) {
+        super("Shooting", x, y, 13, 21, 10, "./img/player/player_idle.png", 5, 5, 1, player);
 
         this.bulletController = bulletController;
         this.timeToNextShot = 10;

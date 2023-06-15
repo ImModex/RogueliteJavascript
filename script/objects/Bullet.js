@@ -1,11 +1,11 @@
-import { GameObject } from "./gameObject.js";
+import { ImageObject } from "./imageObject.js";
 
-export class Bullet extends GameObject {
+export class Bullet extends ImageObject {
     speed;
     direction;
 
     constructor(x, y, speed, direction) {
-        super("Bullet", x, y, 5, 5, "#000000");
+        super("Bullet", x, y, 15, 14, 3, "./img/projectiles/spark.gif");
 
         this.speed = speed;
         this.direction = direction;

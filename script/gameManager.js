@@ -5,6 +5,7 @@ import { InputHandler } from "./inputHandler.js";
 import { SoundManager } from "./soundManager.js";
 import { Zombie } from "./objects/zombie.js";
 import { Shooting } from "./objects/shooting.js";
+import { drawHealthBar } from "./userinterface.js";
 
 export class GameManager {
 
@@ -82,6 +83,9 @@ export class GameManager {
         // TODO: Move this to object clas
         this.playerObject.update();
         this.playerObject.draw(this.canvas);
+
+        drawHealthBar(this.canvas, this.playerObject);
+
         requestAnimationFrame(this.gameLoop.bind(this));
     }
 

@@ -4,6 +4,7 @@ import { ImageObject } from "./imageObject.js";
 export class Player extends ImageObject {
     name;
     healthPoints;
+    maxHealth;
     damage;
     attackSpeed;
     inputHandler;
@@ -25,10 +26,11 @@ export class Player extends ImageObject {
         });
 
         this.name = name;
-        this.healthPoints = health;
+        this.healthPoints = health-2.5;
+        this.maxHealth = health;
         this.damage = damage;
         // TODO: Change max and min attackspeed if necessary
-        this.attackSpeed = (attackSpeed <= 0) ? 1 : (attackSpeed > 5) ? 5 : attackSpeed;
+        this.attackSpeed = attackSpeed;
         this.inputHandler = inputHandler;
         this.bulletController = bulletController;
     }

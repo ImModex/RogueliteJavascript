@@ -26,11 +26,11 @@ export class Player extends ImageObject {
         });
 
         this.name = name;
-        this.healthPoints = health-10;
+        this.healthPoints = health-2.5;
         this.maxHealth = health;
         this.damage = damage;
         // TODO: Change max and min attackspeed if necessary
-        this.attackSpeed = (attackSpeed <= 0) ? 1 : (attackSpeed > 5) ? 5 : attackSpeed;
+        this.attackSpeed = attackSpeed;
         this.inputHandler = inputHandler;
         this.bulletController = bulletController;
     }

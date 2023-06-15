@@ -22,7 +22,6 @@ export function drawHealthBar(canvas, player) {
     if(player.healthPoints <= 0) return;
 
     for(; i < Math.floor(player.healthPoints); ++i) {
-        console.log(player.healthPoints, currentX);
         // ganze Herzen
         canvas.drawLayer.drawImage(redHeart, currentX, currentY, redHeart.width*5, redHeart.height*5);
         currentX += redHeart.width*5;
@@ -31,9 +30,10 @@ export function drawHealthBar(canvas, player) {
         // halbes Herz
         canvas.drawLayer.drawImage(halfRedHeart, currentX, currentY, halfRedHeart.width*5, halfRedHeart.height*5);
         currentX += halfRedHeart.width*5;
-        return;
+        i += 1;
     }
     for(; i < player.maxHealth; ++i) {
+        console.log(i);
         // leere Herzen
         canvas.drawLayer.drawImage(emptyHeart, currentX, currentY, emptyHeart.width*5, emptyHeart.height*5);
         currentX += emptyHeart.width*5;

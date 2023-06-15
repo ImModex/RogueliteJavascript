@@ -34,7 +34,7 @@ export class GameManager {
 
     constructor() {
         // Get canvas from html and initialize
-        this.canvas = new Canvas(15, 9, "canvas");
+        this.canvas = new Canvas(16, 9, "canvas");
         this.bulletController = new BulletController();
         this.inputHandler = new InputHandler(this.canvas);
         this.soundManager = new SoundManager();
@@ -43,15 +43,16 @@ export class GameManager {
         // Add sound named "oof" with source
         // When sound is loaded, play it and loop = true
         // When sound is done playing (every time it is done playing if loop = true), execute callback
+        /*
         this.soundManager.addSound("oof", "./sound/oof.mp3").then(() => {
             this.soundManager.play("oof", true, () => { console.log("hi"); this.soundManager.stop(); this.soundManager.play("oof", false, () => console.log(2)); });
         });
+        */
         
+        this.playerObject = new Player("Test", screen.width / 2, screen.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
 
-        this.playerObject = new Player("Test", this.canvas.width / 2, this.canvas.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
-
-        this.enemyObjects.push(new Zombie(this.playerObject, this.canvas.width/4, this.canvas.width/4));
-        this.enemyObjects.push(new Shooting(this.playerObject, this.canvas.width/3, this.canvas.height/3, this.bulletController));
+        this.enemyObjects.push(new Zombie(screen.width / 4, screen.height / 4));
+        this.enemyObjects.push(new Shooting(this.playerObject, screen.width / 3, screen.height / 3, this.bulletController));
     }
 
     // Initialize game and start loop
@@ -64,9 +65,7 @@ export class GameManager {
     // TODO: Test deltatime
     gameLoop() {
         this.updateDeltaTime();
-        this.canvas.update();
         this.canvas.drawLayer.clearRect(0, 0, canvas.width, canvas.height);
-
 
         this.bulletController.draw(this.canvas);
         this.gameObjects.forEach(object => {

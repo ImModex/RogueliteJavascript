@@ -55,8 +55,8 @@ export class GameObject {
 
     constructor(name, x, y, width, height, color, borderColor) {
         this.name = name;
-        this.position.x = x;
-        this.position.y = y;
+        this.position.x = Math.round(x);
+        this.position.y = Math.round(y);
         this.dimensions.width = width;
         this.dimensions.height = height;
         this.colors.color = color;

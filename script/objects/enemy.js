@@ -4,8 +4,9 @@ export class Enemy extends ImageObject {
     healthPoints;
     damage;
     attackSpeed;
+    player;
 
-    constructor(name, x, y, healthPoints, damage, attackSpeed) {
+    constructor(player, name, x, y, healthPoints, damage, attackSpeed) {
         super(name, x, y, 13, 21, 125, 200, "./img/player_idle2.png");
 
         //this.setBoundaryOffset(22, -17, -23, 18);
@@ -17,9 +18,9 @@ export class Enemy extends ImageObject {
         this.healthPoints = healthPoints;
         this.damage = damage;
         this.attackSpeed = attackSpeed;
+
+        this.player = player;
     }
 
-    useAbility(player) {
-        
-    }
+    update(){}
 }

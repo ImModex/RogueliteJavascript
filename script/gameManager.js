@@ -4,7 +4,7 @@ import { BulletController } from "./objects/BulletController.js";
 import { InputHandler } from "./inputHandler.js";
 import { SoundManager } from "./soundManager.js";
 import { Zombie } from "./objects/zombie.js";
-import { Shootable } from "./objects/shootable.js";
+import { Shooting } from "./objects/shooting.js";
 
 export class GameManager {
 
@@ -50,8 +50,8 @@ export class GameManager {
 
         this.playerObject = new Player("Test", this.canvas.width / 2, this.canvas.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
 
-        this.enemyObjects.push(new Zombie(this.canvas.width/4, this.canvas.width/4));
-        this.enemyObjects.push(new Shootable(this.canvas.width/3, this.canvas.height/3, this.bulletController));
+        this.enemyObjects.push(new Zombie(this.playerObject, this.canvas.width/4, this.canvas.width/4));
+        this.enemyObjects.push(new Shooting(this.playerObject, this.canvas.width/3, this.canvas.height/3, this.bulletController));
     }
 
     // Initialize game and start loop
@@ -75,7 +75,7 @@ export class GameManager {
         });
         
         this.enemyObjects.forEach(enemy => {
-            enemy.useAbility(this.playerObject);
+            enemy.update();
             enemy.draw(this.canvas);
         });
 

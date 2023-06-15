@@ -33,7 +33,6 @@ export function drawHealthBar(canvas, player) {
         i += 1;
     }
     for(; i < player.maxHealth; ++i) {
-        console.log(i);
         // leere Herzen
         canvas.drawLayer.drawImage(emptyHeart, currentX, currentY, emptyHeart.width*5, emptyHeart.height*5);
         currentX += emptyHeart.width*5;

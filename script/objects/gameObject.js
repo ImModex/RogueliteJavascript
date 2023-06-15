@@ -10,7 +10,13 @@ export class GameObject {
 
     position = {
         "x": 90,
-        "y": 90
+        "y": 90,
+        "centerX": () => {
+            return this.position.x + ((this.dimensions.scaledWidth) ? this.dimensions.scaledWidth / 2 : this.dimensions.width / 2)
+        },
+        "centerY": () => {
+            return this.position.y + ((this.dimensions.scaledHeight) ? this.dimensions.scaledHeight / 2 : this.dimensions.height / 2);
+        }
     };
 
     prevPosition = {

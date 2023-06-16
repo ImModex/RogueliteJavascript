@@ -78,6 +78,11 @@ export class InputHandler {
     }
 
     updateCoordinates(player) {
+        if(!this.rightPressed && !this.leftPressed && !this.downPressed && !this.upPressed) {
+            player.setCurrentAnimationByNameIfNotPlaying("idle");
+            return false;
+        }
+
         if (this.rightPressed) {
             player.setCurrentAnimationByNameIfNotPlaying("right");
             if (player.boundaries.rightBoundary() >= this.canvas.width){
@@ -110,9 +115,7 @@ export class InputHandler {
             }
         }
 
-        if(!this.rightPressed && !this.leftPressed && !this.downPressed && !this.upPressed) {
-            player.setCurrentAnimationByNameIfNotPlaying("idle");
-        }
+        return true;
     }
 
     shootPressed() {

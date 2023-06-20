@@ -5,20 +5,22 @@ export class Bullet extends ImageObject {
     speed;
     direction;
     owner;
-
-    constructor(owner, x, y, speed, direction) {
+    damage;
+    
+    constructor(owner, damage, x, y, speed, direction) {
         super("Bullet", x, y, 15, 14, 3, "./img/projectiles/spark.gif");
 
         this.speed = speed;
         this.direction = direction;
         this.owner = owner;
+        this.damage = damage;
     }
 
     onCollision(object) {
         if(object.iframe) return;
         if(ObjectManager.getObjectById(this.owner) === object) return;
 
-        object.applyDamage(ObjectManager.getObjectById(this.owner).damage);
+        object.applyDamage(this.damage);
         this.active = false;
     }
 

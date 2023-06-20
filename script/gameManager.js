@@ -1,6 +1,4 @@
 import { Canvas } from "./canvas.js";
-import { BulletController } from "./objects/BulletController.js";
-import { SoundManager } from "./soundManager.js";
 import { Level } from "./level.js";
 
 export class GameManager {
@@ -52,7 +50,15 @@ export class GameManager {
         this.level.update(this.canvas);
 
         if(!this.level.isActive()) {
-            // TODO: Reset level (new wave)
+            this.level.wave++;
+            this.level.generateEnemies(this.level.wave);
+            this.level.bulletController.bullets = [];
+        }
+
+        
+        if(this.level.playerObject.healthPoints <= 0) {
+            // dead
+            return;
         }
 
         requestAnimationFrame(this.gameLoop.bind(this));

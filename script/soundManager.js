@@ -46,6 +46,7 @@ export class SoundManager {
 
         sound.loop = loop;
         sound.play();
+        
 
         if(callback) {
             if(loop) { // Does not work yet

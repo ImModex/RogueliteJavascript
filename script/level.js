@@ -4,7 +4,7 @@ import { Player } from "./objects/player.js";
 import { Shooting } from "./objects/shooting.js";
 import { Zombie } from "./objects/zombie.js";
 import { drawHealthBar, drawEnemyHealthbar } from "./userinterface.js";
-import { AxisAlignedBoundingBoxCheck, collide } from "./utility.js";
+import { AxisAlignedBoundingBoxCheck, collide, eulerDistance } from "./utility.js";
 import { SoundManager } from "./soundManager.js";
 
 export class Level {
@@ -15,25 +15,49 @@ export class Level {
     inputHandler = null;
     soundManager = null;
     canvas = null;
+    wave = null;
 
     constructor(enemyCount, canvas) {
         this.canvas = canvas;
+        this.wave = enemyCount;
         this.bulletController = new BulletController();
         this.soundManager = new SoundManager();
         this.inputHandler = new InputHandler(this.canvas);
-        this.playerObject = new Player("Test", screen.width/4, screen.height/3, 5, 5, 5, this.bulletController, canvas, this.inputHandler, this.soundManager);
+        this.playerObject = new Player("Test", screen.width/2, screen.height/3, 5, 5, 5, this.bulletController, canvas, this.inputHandler, this.soundManager);
 
-        for(let i=0; i < enemyCount; ++i) {
+        // Random coordinates for each enemy
+        //let randX = Math.floor(Math.random() * ((screen.width-screen.width/6) - screen.width/2 + 1) + screen.width/2);
+        //let randY = Math.floor(Math.random() * ((screen.height-200) - 0 + 1) + 0);
+        this.generateEnemies(enemyCount);
+    }
+
+    generateEnemies(count) {
+        for(let i = 0; i < count; ++i) {
+            let type = Math.floor(Math.random() * 2);
+
             let x = Math.floor(Math.random()*2);
             
-            // Random coordinates for each enemy
-            let randX = Math.floor(Math.random() * ((screen.width-screen.width/6) - screen.width/2 + 1) + screen.width/2);
-            let randY = Math.floor(Math.random() * ((screen.height-200) - 0 + 1) + 0);
+            let position = {
+                x: 0,
+                y: 0
+            };
 
-            if(x == 0) {
-                this.enemyObjects.push(new Zombie(randX, randY, this.playerObject, this.soundManager));
-            } else {
-                this.enemyObjects.push(new Shooting(randX, randY, this.playerObject, this.bulletController, this.soundManager));
+            do {
+                position.x = Math.floor(Math.random() * screen.width);
+                position.y = Math.floor(Math.random() * screen.height);
+                console.log(eulerDistance(this.playerObject, {position}));
+            } while(eulerDistance(this.playerObject, {position}) < 600);
+
+            switch (type) {
+                case 0:
+                    this.enemyObjects.push(new Zombie(position.x, position.y, this.playerObject, this.soundManager));
+                    break;
+                case 1:
+                    this.enemyObjects.push(new Shooting(position.x, position.y, this.playerObject, this.bulletController, this.soundManager));
+                    break;
+
+                default:
+                    break;
             }
         }
     }
@@ -58,7 +82,7 @@ export class Level {
     }
 
     isActive() {
-        return (this.playerObject.healthPoints > 0) && (this.enemyObjects.length > 0);
+        return this.enemyObjects.length > 0;
     }
 
     removeInactiveObjects() {

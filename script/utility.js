@@ -50,6 +50,10 @@ export const collide = (a, b) => {
     setIframe(b);
 }
 
+export const eulerDistance = (a, b) => {
+    return Math.sqrt(Math.pow(a.position.x - b.position.x, 2) + Math.pow(a.position.y - b.position.y, 2));
+}
+
 const setIframe = (o) => {
     if(!o.iframeDuration || o.iframe) return;
 

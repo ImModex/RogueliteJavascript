@@ -58,7 +58,7 @@ export class Player extends ImageObject {
         const bulletX = this.position.x + (this.dimensions.scaledWidth / 2);
         const bulletY = this.position.y + (this.dimensions.scaledHeight / 2);
         this.soundManager.playIfNotPlaying("player_shoot");
-        this.bulletController.shoot(Object.id(this), bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());
+        this.bulletController.shoot(Object.id(this), this.damage, bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());
     }
 
 }

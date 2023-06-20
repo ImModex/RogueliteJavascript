@@ -1,20 +1,12 @@
 import { Canvas } from "./canvas.js";
-import { Player } from "./objects/player.js";
 import { BulletController } from "./objects/BulletController.js";
-import { InputHandler } from "./inputHandler.js";
 import { SoundManager } from "./soundManager.js";
-import { Zombie } from "./objects/zombie.js";
-import { Shooting } from "./objects/shooting.js";
-import { drawEnemyHealthbar, drawHealthBar } from "./userinterface.js";
-import { AxisAlignedBoundingBoxCheck, collide } from "./utility.js";
+import { Level } from "./level.js";
 
 export class GameManager {
 
-    // Store player object
-    playerObject = null;
-
-    // Store enemy objects
-    enemyObjects = [];
+    // Level object
+    level = null;
 
     // Store all game objects without player
     gameObjects = [];
@@ -22,24 +14,16 @@ export class GameManager {
     // Canvas reference to draw on
     canvas = null;
 
-    // BulletController
-    bulletController = null;
-
     // Delta time, used to dynamically scale velocities and timings to frame times
     // When someone lags -> Things would move / happen slower, therefore we use deltatime
     // to compensate that by increasing speed / tick so less ticks with higher speed
     // equal lower speed with more ticks
     dt = 0;
 
-    inputHandler;
-    soundManager;
 
     constructor() {
         // Get canvas from html and initialize
         this.canvas = new Canvas(16, 9, "canvas");
-        this.bulletController = new BulletController();
-        this.inputHandler = new InputHandler(this.canvas);
-        this.soundManager = new SoundManager();
 
 
         // Add sound named "oof" with source
@@ -48,13 +32,9 @@ export class GameManager {
         /*
         this.soundManager.addSound("oof", "./sound/oof.mp3").then(() => {
             this.soundManager.play("oof", true, () => { console.log("hi"); this.soundManager.stop(); this.soundManager.play("oof", false, () => console.log(2)); });
-        });
-        */
-        
-        this.playerObject = new Player("Test", screen.width / 2, screen.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler, this.soundManager);
+        });*/
 
-        this.enemyObjects.push(new Zombie(screen.width / 4, screen.height / 4, this.playerObject));
-        this.enemyObjects.push(new Shooting(screen.width / 3, screen.height / 3, this.playerObject, this.bulletController, this.soundManager));
+        this.level = new Level(2, this.canvas);
     }
 
     // Initialize game and start loop
@@ -69,27 +49,11 @@ export class GameManager {
         this.updateDeltaTime();
         this.canvas.drawLayer.clearRect(0, 0, canvas.width, canvas.height);
 
-        this.removeInactiveObjects();
-        this.checkCollisions();
+        this.level.update(this.canvas);
 
-        this.bulletController.update();
-        this.bulletController.draw(this.canvas);
-        this.gameObjects.forEach(object => {
-            object.update();
-            object.draw(this.canvas);
-        });
-        
-        this.enemyObjects.forEach(enemy => {
-            enemy.update();
-            enemy.draw(this.canvas);
-            drawEnemyHealthbar(this.canvas, enemy);
-        });
-
-        // TODO: Move this to object clas
-        this.playerObject.update();
-        this.playerObject.draw(this.canvas);
-
-        drawHealthBar(this.canvas, this.playerObject);
+        if(!this.level.isActive()) {
+            // TODO: Reset level (new wave)
+        }
 
         requestAnimationFrame(this.gameLoop.bind(this));
     }
@@ -99,35 +63,5 @@ export class GameManager {
         let now = Date.now();
         this.dt = now - this.lastTick;
         this.lastTick = now;
-    }
-
-    removeInactiveObjects() {
-        this.enemyObjects = this.enemyObjects.filter(enemy => enemy.active);
-        this.gameObjects = this.gameObjects.filter(object => object.active);
-        this.bulletController.bullets = this.bulletController.bullets.filter(bullet => bullet.active);
-    }
-
-    // Check for collision between collidable objects
-    checkCollisions() {
-        this.enemyObjects.forEach(enemy => {
-            // Player collides with enemy
-            if(AxisAlignedBoundingBoxCheck(enemy, this.playerObject)) {
-                collide(enemy, this.playerObject);
-            }
-
-            // Enemy collides with player bullet
-            this.bulletController.bullets.filter(bullet => bullet.owner === Object.id(this.playerObject)).forEach(playerBullet => {
-                if(AxisAlignedBoundingBoxCheck(enemy, playerBullet)) {
-                    collide(enemy, playerBullet);
-                }
-            });
-        });
-
-        // Player collides with enemy bullet
-        this.bulletController.bullets.filter(bullet => bullet.owner !== Object.id(this.playerObject)).forEach(enemyBullet => {
-            if(AxisAlignedBoundingBoxCheck(this.playerObject, enemyBullet)) {
-                collide(this.playerObject, enemyBullet);
-            }
-        });
     }
 }

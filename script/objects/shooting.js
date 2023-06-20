@@ -3,8 +3,9 @@ import { Enemy } from "./enemy.js";
 export class Shooting extends Enemy {
     bulletController;
     shootDirection = "left";
+    soundManager;
 
-    constructor(x, y, player, bulletController) {
+    constructor(x, y, player, bulletController, soundManager) {
         super("Kobold Priest", x, y, 17, 18, 6, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png", 10, 2, 1, player);
 
         this.addAnimationInformation("idle_right", 17, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png");
@@ -24,6 +25,7 @@ export class Shooting extends Enemy {
         });
 
         this.bulletController = bulletController;
+        this.soundManager = soundManager;
         this.timeToNextShot = 10;
     }
 
@@ -52,6 +54,8 @@ export class Shooting extends Enemy {
         this.setCurrentAnimationByNameIfNotPlaying("attack_" + this.shootDirection, () => {
             this.setCurrentAnimationByNameIfNotPlaying("idle_" + this.shootDirection);
         });
+
+        this.soundManager.playIfNotPlaying("enemy_shoot");
         this.bulletController.shoot(this.name, bulletX, bulletY, 3, 100, this.shootDirection);
     }
 }

@@ -50,10 +50,10 @@ export class GameManager {
         });
         */
         
-        this.playerObject = new Player("Test", screen.width / 2, screen.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler);
+        this.playerObject = new Player("Test", screen.width / 2, screen.height / 2, 5, 5, 5, this.bulletController, this.canvas, this.inputHandler, this.soundManager);
 
         this.enemyObjects.push(new Zombie(screen.width / 4, screen.height / 4, this.playerObject));
-        this.enemyObjects.push(new Shooting(screen.width / 3, screen.height / 3, this.playerObject, this.bulletController));
+        this.enemyObjects.push(new Shooting(screen.width / 3, screen.height / 3, this.playerObject, this.bulletController, this.soundManager));
     }
 
     // Initialize game and start loop

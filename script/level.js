@@ -3,21 +3,25 @@ import { BulletController } from "./objects/BulletController.js";
 import { Player } from "./objects/player.js";
 import { Shooting } from "./objects/shooting.js";
 import { Zombie } from "./objects/zombie.js";
-import { drawHealthBar } from "./userinterface.js";
-
+import { drawHealthBar, drawEnemyHealthbar } from "./userinterface.js";
+import { AxisAlignedBoundingBoxCheck, collide } from "./utility.js";
+import { SoundManager } from "./soundManager.js";
 
 export class Level {
     playerObject = null;
     enemyObjects = [];
+    gameObjects = [];
     bulletController = null;
     inputHandler = null;
+    soundManager = null;
     canvas = null;
 
     constructor(enemyCount, canvas) {
         this.canvas = canvas;
         this.bulletController = new BulletController();
+        this.soundManager = new SoundManager();
         this.inputHandler = new InputHandler(this.canvas);
-        this.playerObject = new Player("Test", screen.width/4, screen.height/3, 5, 5, 5, this.bulletController, canvas, this.inputHandler);
+        this.playerObject = new Player("Test", screen.width/4, screen.height/3, 5, 5, 5, this.bulletController, canvas, this.inputHandler, this.soundManager);
 
         for(let i=0; i < enemyCount; ++i) {
             let x = Math.floor(Math.random()*2);
@@ -27,9 +31,9 @@ export class Level {
             let randY = Math.floor(Math.random() * ((screen.height-200) - 0 + 1) + 0);
 
             if(x == 0) {
-                this.enemyObjects.push(new Zombie(randX, randY, this.playerObject));
+                this.enemyObjects.push(new Zombie(randX, randY, this.playerObject, this.soundManager));
             } else {
-                this.enemyObjects.push(new Shooting(randX, randY, this.playerObject, this.bulletController));
+                this.enemyObjects.push(new Shooting(randX, randY, this.playerObject, this.bulletController, this.soundManager));
             }
         }
     }
@@ -44,6 +48,7 @@ export class Level {
         this.enemyObjects.forEach(enemy => {
             enemy.update();
             enemy.draw(canvas);
+            drawEnemyHealthbar(canvas, enemy);
         });
 
         this.playerObject.update();

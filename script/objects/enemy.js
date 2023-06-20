@@ -2,6 +2,7 @@ import { ImageObject } from "./imageObject.js";
 
 export class Enemy extends ImageObject {
     healthPoints;
+    maxHealth;
     damage;
     attackSpeed;
     player;
@@ -10,6 +11,7 @@ export class Enemy extends ImageObject {
         super(name, x, y, width, height, scaleFactor, sprite);
 
         this.healthPoints = healthPoints;
+        this.maxHealth = healthPoints;
         this.damage = damage;
         this.attackSpeed = attackSpeed;
 

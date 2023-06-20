@@ -6,7 +6,7 @@ export class Shooting extends Enemy {
     soundManager;
 
     constructor(x, y, player, bulletController, soundManager) {
-        super("Kobold Priest", x, y, 17, 18, 6, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png", 5, 2, 1, player);
+        super("Kobold Priest", x, y, 17, 18, 6, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png", 10, 2, 1, player);
 
         this.addAnimationInformation("idle_right", 17, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png");
         this.addAnimationInformation("idle_left", 17, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingLeft/koboldPriestIdleLeft.png");

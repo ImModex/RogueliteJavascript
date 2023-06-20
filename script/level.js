@@ -34,6 +34,9 @@ export class Level {
     }
 
     update(canvas) {
+        this.removeInactiveObjects();
+        this.checkCollisions();
+
         this.bulletController.update();
         this.bulletController.draw(canvas);
         
@@ -52,7 +55,32 @@ export class Level {
         return (this.playerObject.healthPoints > 0) && (this.enemyObjects.length > 0);
     }
 
+    removeInactiveObjects() {
+        this.enemyObjects = this.enemyObjects.filter(enemy => enemy.active);
+        this.gameObjects = this.gameObjects.filter(object => object.active);
+        this.bulletController.bullets = this.bulletController.bullets.filter(bullet => bullet.active);
+    }
+
     checkCollisions() {
-        
+        this.enemyObjects.forEach(enemy => {
+            // Player collides with enemy
+            if(AxisAlignedBoundingBoxCheck(enemy, this.playerObject)) {
+                collide(enemy, this.playerObject);
+            }
+
+            // Enemy collides with player bullet
+            this.bulletController.bullets.filter(bullet => bullet.owner === Object.id(this.playerObject)).forEach(playerBullet => {
+                if(AxisAlignedBoundingBoxCheck(enemy, playerBullet)) {
+                    collide(enemy, playerBullet);
+                }
+            });
+        });
+
+        // Player collides with enemy bullet
+        this.bulletController.bullets.filter(bullet => bullet.owner !== Object.id(this.playerObject)).forEach(enemyBullet => {
+            if(AxisAlignedBoundingBoxCheck(this.playerObject, enemyBullet)) {
+                collide(this.playerObject, enemyBullet);
+            }
+        });
     }
 }

@@ -1,19 +1,18 @@
 export class SoundManager {
-    
     // Associative array where name is the key and HTMLAudioElement is the value
     sounds = [];
 
-    // Reference to the active sound
-    activeSound;
-
     volume = 0.5;
-
-    // ID of callback Interval if looped sound is  playing
-    callbackInterval = 0;
 
     // Load volume from local storage on creation
     constructor() {
         this.loadVolume();
+
+        this.addSound("player_hurt", "./sound/player/damage.ogg");
+        this.addSound("player_shoot", "./sound/player/shooting.mp3");
+        this.addSound("player_move", "./sound/player/steps.mp3");
+
+        this.addSound("enemy_shoot", "./sound/enemy/shooting.wav");
     }
 
     // Get sound from array by name
@@ -47,22 +46,33 @@ export class SoundManager {
 
         sound.loop = loop;
         sound.play();
+        
 
-        if(loop) {
-            this.callbackInterval = setInterval(callback, sound.duration * 1000);
-        } else {
-            setTimeout(() => {
-                callback();
-                this.stop();
-            }, sound.duration * 1000);
+        if(callback) {
+            if(loop) { // Does not work yet
+                //this.callbackInterval = setInterval(callback, sound.duration * 1000);
+            } else {
+                setTimeout(() => {
+                    callback();
+                    this.stop();
+                }, sound.duration * 1000);
+            }
         }
+    }
 
-        this.activeSound = sound;
+    playIfNotPlaying(name, loop = false, callback) {
+        if(this.getSound(name) && this.getSound(name).paused) {
+            this.play(name, loop, callback);
+        }
+    }
+
+    pause() {
+        this.sounds.keys().forEach(sound => { this.pause(sound) });
     }
 
     // Pauses current sound
-    pause() {
-        this.activeSound.pause();
+    pause(name) {
+        this.getSound[name].pause();
 
         if(this.callbackInterval) {
             clearInterval(this.callbackInterval);
@@ -72,22 +82,26 @@ export class SoundManager {
 
     // Resumes currently paused sound
     resume() {
-        if(this.activeSound && this.activeSound.paused) {
-            this.activeSound.play();
-        }
+        this.sounds.keys().forEach(sound => { this.resume(sound) });
+    }
+
+    resume(name) {
+        if(this.getSound[name].paused)
+            this.getSound[name].play();
     }
 
     // Stops currently playing sound
     stop() {
-        this.activeSound.pause();
-        this.activeSound.currentTime = 0;
+        this.sounds.keys().forEach(sound => { this.stop(sound) });
+    }
+
+    stop(name) {
+        this.getSound[name].stop();
 
         if(this.callbackInterval) {
             clearInterval(this.callbackInterval);
             this.callbackInterval = 0;
         }
-
-        this.activeSound = null;
     }
 
     // Sets volume in program and localstorage

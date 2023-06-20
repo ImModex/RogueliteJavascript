@@ -8,10 +8,11 @@ export class Player extends ImageObject {
     damage;
     attackSpeed;
     inputHandler;
+    soundManager;
     bulletController;
 
     // TODO: Player can walk through right and bottom wall lol
-    constructor(name, x, y, health, damage, attackSpeed, bulletController, canvas, inputHandler) {
+    constructor(name, x, y, health, damage, attackSpeed, bulletController, canvas, inputHandler, soundManager) {
         super(name, x, y, 13, 21, 10, "./img/player/player_idle.png");
 
         //this.setBoundaryOffset(22, -17, -23, 18);
@@ -26,27 +27,38 @@ export class Player extends ImageObject {
         });
 
         this.name = name;
-        this.healthPoints = health-2.5;
+        this.healthPoints = health;
         this.maxHealth = health;
         this.damage = damage;
         // TODO: Change max and min attackspeed if necessary
         this.attackSpeed = attackSpeed;
         this.inputHandler = inputHandler;
+        this.soundManager = soundManager;
         this.bulletController = bulletController;
     }
 
     update() {
-        this.inputHandler.updateCoordinates(this);
+        if(this.inputHandler.updateCoordinates(this)) {
+            this.soundManager.playIfNotPlaying("player_move");
+        }
         this.shoot();
+    }
+
+    applyDamage(amount) {
+        this.healthPoints -= amount;
+
+        // Object died
+        if(this.healthPoints <= 0);
     }
 
     shoot() {
         if(!this.inputHandler.shootPressed()) return;
         const bulletSpeed = 5;
-        const delay = 10;
+        const delay = 30;
         const bulletX = this.position.x + (this.dimensions.scaledWidth / 2);
         const bulletY = this.position.y + (this.dimensions.scaledHeight / 2);
-        this.bulletController.shoot(this.name, bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());
+        this.soundManager.playIfNotPlaying("player_shoot");
+        this.bulletController.shoot(Object.id(this), this.damage, bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());
     }
 
 }

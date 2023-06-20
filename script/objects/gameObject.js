@@ -3,6 +3,9 @@ export class GameObject {
     hasCollisions = false;
     name;
 
+    iframe = false;
+    iframeDuration = 1000;
+
     colors = {
         color: "#000000",
         borderColor: "#000000"
@@ -73,9 +76,7 @@ export class GameObject {
 
     }
 
-    onCollision(object) {
-
-    }
+    onCollision(object) {}
 
     storePosition() {
         this.prevPosition.x = this.position.x;   

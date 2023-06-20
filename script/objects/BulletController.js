@@ -16,10 +16,10 @@ export class BulletController {
         });
     }     
 
-    shoot(object, x, y, speed, delay, direction) {
-        if(this.times[object] <= 0 || !this.times[object]) {
-            this.bullets.push(new Bullet(x, y, speed, direction));
-            this.times[object] = delay;
+    shoot(owner, damage, x, y, speed, delay, direction) {
+        if(this.times[owner] <= 0 || !this.times[owner]) {
+            this.bullets.push(new Bullet(owner, damage, x, y, speed, direction));
+            this.times[owner] = delay;
         }
     }
 

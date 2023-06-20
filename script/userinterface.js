@@ -38,3 +38,16 @@ export function drawHealthBar(canvas, player) {
         currentX += emptyHeart.width*5;
     }
 }
+
+export function drawEnemyHealthbar(canvas, enemy) {
+    let offsetX = 40;
+    let offsetY = 30;
+
+    let hp = enemy.healthPoints / enemy.maxHealth * 100;
+
+    canvas.drawLayer.lineWidth = 3;
+    canvas.drawLayer.strokeStyle = "#333";
+    canvas.drawLayer.fillStyle = "green";
+    canvas.drawLayer.fillRect(enemy.position.x + offsetX, enemy.position.y - offsetY, hp, 20);
+    canvas.drawLayer.strokeRect(enemy.position.x + offsetX, enemy.position.y - offsetY, 100, 20);
+}

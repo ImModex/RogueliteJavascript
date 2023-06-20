@@ -43,7 +43,7 @@ export class Player extends ImageObject {
     shoot() {
         if(!this.inputHandler.shootPressed()) return;
         const bulletSpeed = 5;
-        const delay = 10;
+        const delay = 30;
         const bulletX = this.position.x + (this.dimensions.scaledWidth / 2);
         const bulletY = this.position.y + (this.dimensions.scaledHeight / 2);
         this.bulletController.shoot(this.name, bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());

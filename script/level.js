@@ -16,7 +16,8 @@ export class Level {
     constructor(enemyCount, canvas) {
         this.canvas = canvas;
         this.bulletController = new BulletController();
-        this.playerObject = new Player("Test", screen.width/4, screen.height/3, 5, 5, 5, this.bulletController, canvas, new InputHandler(canvas));
+        this.inputHandler = new InputHandler(this.canvas);
+        this.playerObject = new Player("Test", screen.width/4, screen.height/3, 5, 5, 5, this.bulletController, canvas, this.inputHandler);
 
         for(let i=0; i < enemyCount; ++i) {
             let x = Math.floor(Math.random()*2);

@@ -9,10 +9,12 @@ import { drawHealthBar } from "./userinterface.js";
 export class Level {
     playerObject = null;
     enemyObjects = [];
-    bulletController;
+    bulletController = null;
+    inputHandler = null;
+    canvas = null;
 
     constructor(enemyCount, canvas) {
-
+        this.canvas = canvas;
         this.bulletController = new BulletController();
         this.playerObject = new Player("Test", screen.width/4, screen.height/3, 5, 5, 5, this.bulletController, canvas, new InputHandler(canvas));
 

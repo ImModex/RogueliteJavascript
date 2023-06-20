@@ -29,7 +29,9 @@ export class GameManager {
         // Get canvas from html and initialize
         this.canvas = new Canvas(16, 9, "canvas");
         this.bulletController = new BulletController();
+        this.inputHandler = new InputHandler(this.canvas);
         this.soundManager = new SoundManager();
+
 
         // Add sound named "oof" with source
         // When sound is loaded, play it and loop = true

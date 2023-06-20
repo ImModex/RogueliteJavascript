@@ -52,6 +52,7 @@ export class Shooting extends Enemy {
         this.setCurrentAnimationByNameIfNotPlaying("attack_" + this.shootDirection, () => {
             this.setCurrentAnimationByNameIfNotPlaying("idle_" + this.shootDirection);
         });
+        console.log(this.bulletController);
         this.bulletController.shoot(this.name, bulletX, bulletY, 3, 100, this.shootDirection);
     }
 }

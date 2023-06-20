@@ -27,7 +27,7 @@ export class Player extends ImageObject {
         });
 
         this.name = name;
-        this.healthPoints = health-2.5;
+        this.healthPoints = health;
         this.maxHealth = health;
         this.damage = damage;
         // TODO: Change max and min attackspeed if necessary
@@ -44,6 +44,13 @@ export class Player extends ImageObject {
         this.shoot();
     }
 
+    applyDamage(amount) {
+        this.healthPoints -= amount;
+
+        // Object died
+        if(this.healthPoints <= 0);
+    }
+
     shoot() {
         if(!this.inputHandler.shootPressed()) return;
         const bulletSpeed = 5;
@@ -51,7 +58,7 @@ export class Player extends ImageObject {
         const bulletX = this.position.x + (this.dimensions.scaledWidth / 2);
         const bulletY = this.position.y + (this.dimensions.scaledHeight / 2);
         this.soundManager.playIfNotPlaying("player_shoot");
-        this.bulletController.shoot(this.name, bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());
+        this.bulletController.shoot(Object.id(this), bulletX, bulletY, bulletSpeed, delay, this.inputHandler.shootDirection());
     }
 
 }

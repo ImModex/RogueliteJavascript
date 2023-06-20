@@ -1,4 +1,6 @@
 import { ImageObject } from "./imageObject.js";
+import { ObjectManager } from "../utility.js";
+import { Player } from "./player.js";
 
 export class Enemy extends ImageObject {
     healthPoints;
@@ -19,4 +21,20 @@ export class Enemy extends ImageObject {
     }
 
     update(){}
+
+    applyDamage(amount) {
+        this.healthPoints -= amount;
+
+        // Object died
+        if(this.healthPoints <= 0) {
+            this.active = false;
+        }
+    }
+
+    onCollision(object) {
+        if(object.iframe) return;
+        if(ObjectManager.getObjectById(this.owner) === object || !(object instanceof Player)) return;
+
+        object.applyDamage(this.damage);
+    }
 }

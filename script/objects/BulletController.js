@@ -18,7 +18,7 @@ export class BulletController {
 
     shoot(object, x, y, speed, delay, direction) {
         if(this.times[object] <= 0 || !this.times[object]) {
-            this.bullets.push(new Bullet(x, y, speed, direction));
+            this.bullets.push(new Bullet(object, x, y, speed, direction));
             this.times[object] = delay;
         }
     }

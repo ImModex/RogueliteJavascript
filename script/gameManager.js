@@ -6,6 +6,7 @@ import { SoundManager } from "./soundManager.js";
 import { Zombie } from "./objects/zombie.js";
 import { Shooting } from "./objects/shooting.js";
 import { drawEnemyHealthbar, drawHealthBar } from "./userinterface.js";
+import { AxisAlignedBoundingBoxCheck, collide } from "./utility.js";
 
 export class GameManager {
 
@@ -68,6 +69,9 @@ export class GameManager {
         this.updateDeltaTime();
         this.canvas.drawLayer.clearRect(0, 0, canvas.width, canvas.height);
 
+        this.removeInactiveObjects();
+        this.checkCollisions();
+
         this.bulletController.update();
         this.bulletController.draw(this.canvas);
         this.gameObjects.forEach(object => {
@@ -97,8 +101,33 @@ export class GameManager {
         this.lastTick = now;
     }
 
+    removeInactiveObjects() {
+        this.enemyObjects = this.enemyObjects.filter(enemy => enemy.active);
+        this.gameObjects = this.gameObjects.filter(object => object.active);
+        this.bulletController.bullets = this.bulletController.bullets.filter(bullet => bullet.active);
+    }
+
     // Check for collision between collidable objects
     checkCollisions() {
-    
+        this.enemyObjects.forEach(enemy => {
+            // Player collides with enemy
+            if(AxisAlignedBoundingBoxCheck(enemy, this.playerObject)) {
+                collide(enemy, this.playerObject);
+            }
+
+            // Enemy collides with player bullet
+            this.bulletController.bullets.filter(bullet => bullet.owner === Object.id(this.playerObject)).forEach(playerBullet => {
+                if(AxisAlignedBoundingBoxCheck(enemy, playerBullet)) {
+                    collide(enemy, playerBullet);
+                }
+            });
+        });
+
+        // Player collides with enemy bullet
+        this.bulletController.bullets.filter(bullet => bullet.owner !== Object.id(this.playerObject)).forEach(enemyBullet => {
+            if(AxisAlignedBoundingBoxCheck(this.playerObject, enemyBullet)) {
+                collide(this.playerObject, enemyBullet);
+            }
+        });
     }
 }

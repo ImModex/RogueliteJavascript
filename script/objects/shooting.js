@@ -56,6 +56,6 @@ export class Shooting extends Enemy {
         });
 
         this.soundManager.playIfNotPlaying("enemy_shoot");
-        this.bulletController.shoot(this.name, bulletX, bulletY, 3, 100, this.shootDirection);
+        this.bulletController.shoot(Object.id(this), bulletX, bulletY, 3, 100, this.shootDirection);
     }
 }

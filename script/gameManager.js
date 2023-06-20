@@ -5,7 +5,7 @@ import { InputHandler } from "./inputHandler.js";
 import { SoundManager } from "./soundManager.js";
 import { Zombie } from "./objects/zombie.js";
 import { Shooting } from "./objects/shooting.js";
-import { drawHealthBar } from "./userinterface.js";
+import { drawEnemyHealthbar, drawHealthBar } from "./userinterface.js";
 
 export class GameManager {
 
@@ -78,6 +78,7 @@ export class GameManager {
         this.enemyObjects.forEach(enemy => {
             enemy.update();
             enemy.draw(this.canvas);
+            drawEnemyHealthbar(this.canvas, enemy);
         });
 
         // TODO: Move this to object clas

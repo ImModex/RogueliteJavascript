@@ -53,6 +53,9 @@ export class GameManager {
             this.level.wave++;
             this.level.generateEnemies(this.level.wave);
             this.level.bulletController.bullets = [];
+            if(this.level.playerObject.healthPoints < 5) {
+                this.level.playerObject.healthPoints += 1;
+            }
         }
 
         

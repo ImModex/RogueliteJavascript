@@ -3,7 +3,7 @@ import { Enemy } from "./enemy.js";
 export class Zombie extends Enemy {
 
     constructor(x, y, player) {
-        super("Zombie", x, y, 25, 25, 7, "./img/enemies/brainMole/facingRight/brainMoleIdle.png", 5, 2, 1, player);
+        super("Zombie", x, y, 25, 25, 7, "./img/enemies/brainMole/facingRight/brainMoleIdle.png", 10, 1, 1, player);
 
         this.addAnimationInformation("idle_right", 25, 25, 0, 3, 3, "./img/enemies/brainMole/facingRight/brainMoleIdle.png");
         this.addAnimationInformation("idle_left", 25, 25, 0, 3, 3, "./img/enemies/brainMole/facingLeft/brainMoleIdleLeft.png");

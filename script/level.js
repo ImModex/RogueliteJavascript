@@ -23,7 +23,7 @@ export class Level {
         this.bulletController = new BulletController();
         this.soundManager = new SoundManager();
         this.inputHandler = new InputHandler(this.canvas);
-        this.playerObject = new Player("Test", screen.width/2, screen.height/3, 5, 5, 5, this.bulletController, canvas, this.inputHandler, this.soundManager);
+        this.playerObject = new Player("Test", screen.width/2, screen.height/3, 5, 2.5, 5, this.bulletController, canvas, this.inputHandler, this.soundManager);
 
         // Random coordinates for each enemy
         //let randX = Math.floor(Math.random() * ((screen.width-screen.width/6) - screen.width/2 + 1) + screen.width/2);

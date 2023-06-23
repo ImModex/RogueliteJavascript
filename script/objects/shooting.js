@@ -6,19 +6,19 @@ export class Shooting extends Enemy {
     soundManager;
 
     constructor(x, y, player, bulletController, soundManager) {
-        super("Kobold Priest", x, y, 17, 18, 6, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png", 10, 2, 1, player);
+        super("Kobold Priest", x, y, 17, 18, 6, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png", 7.5, 1, 1, player);
 
-        this.addAnimationInformation("idle_right", 17, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png");
-        this.addAnimationInformation("idle_left", 17, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingLeft/koboldPriestIdleLeft.png");
+        this.addAnimationInformation("idle_right", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png");
+        this.addAnimationInformation("idle_left", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestIdleLeft.png");
         
-        this.addAnimationInformation("attack_right", 23, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingRight/koboldPriestAttackBorderCenter.png");
-        this.addAnimationInformation("attack_left", 23, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingLeft/koboldPriestAttackBorderCenterButFacingLeft.png");
+        this.addAnimationInformation("attack_right", 23, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestAttackBorderCenter.png");
+        this.addAnimationInformation("attack_left", 23, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestAttackBorderCenterButFacingLeft.png");
 
-        this.addAnimationInformation("death_right", 26, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingRight/koboldPriestDeath.png");
-        this.addAnimationInformation("death_left", 26, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingLeft/koboldPriestDeathLeft.png");
+        this.addAnimationInformation("death_right", 26, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestDeath.png");
+        this.addAnimationInformation("death_left", 26, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestDeathLeft.png");
         
-        this.addAnimationInformation("hurt_right", 17, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingRight/koboldPriestHurt.png");
-        this.addAnimationInformation("hurt_left", 17, 18, 0, 3, 3, "./img/enemies/koboldPriest/facingLeft/koboldPriestHurtLeft.png");
+        this.addAnimationInformation("hurt_right", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestHurt.png");
+        this.addAnimationInformation("hurt_left", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestHurtLeft.png");
 
         this.setCurrentAnimationByName("idle_right", () => {
             // Called when animation is done
@@ -56,6 +56,6 @@ export class Shooting extends Enemy {
         });
 
         this.soundManager.playIfNotPlaying("enemy_shoot");
-        this.bulletController.shoot(Object.id(this), this.damage, bulletX, bulletY, 3, 100, this.shootDirection);
+        this.bulletController.shoot(Object.id(this), this.damage, bulletX, bulletY, 3, 200, this.shootDirection);
     }
 }

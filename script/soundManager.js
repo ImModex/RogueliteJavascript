@@ -84,23 +84,24 @@ export class SoundManager {
         }
     }
 
-    // Resumes currently paused sound
-    resume() {
-        this.sounds.keys().forEach(sound => { this.resume(sound) });
-    }
-
     resume(name) {
-        if(this.getSound[name].paused)
-            this.getSound[name].play();
-    }
+        if(!name) {
+            Object.keys(this.sounds).forEach(sound => { this.resume(sound) });
+            return;
+        }
 
-    // Stops currently playing sound
-    stop() {
-        this.sounds.keys().forEach(sound => { this.stop(sound) });
+        if(this.getSound(name).paused)
+            this.getSound(name).play();
     }
 
     stop(name) {
-        this.getSound[name].stop();
+        if(!name) {
+            Object.keys(this.sounds).forEach(sound => { this.stop(sound) });
+            return;
+        }
+
+        this.getSound(name).pause();
+        this.getSound(name).currentTime = 0;
 
         if(this.callbackInterval) {
             clearInterval(this.callbackInterval);

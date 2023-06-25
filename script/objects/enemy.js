@@ -37,6 +37,7 @@ export class Enemy extends ImageObject {
         if(object.iframe) return;
         if(ObjectManager.getObjectById(this.owner) === object || !(object instanceof Player)) return;
 
+        this.soundManager.playIfNotPlaying("melee_attack");
         object.applyDamage(this.damage);
     }
 }

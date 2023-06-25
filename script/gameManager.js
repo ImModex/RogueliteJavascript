@@ -88,6 +88,8 @@ export class GameManager {
         
         if(this.level.playerObject.healthPoints <= 0) {
             dispatchEvent(events.playerDeath);
+            console.log(this.level.soundManager);
+            this.level.soundManager.stop();
             return;
         }
 

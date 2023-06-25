@@ -61,7 +61,7 @@ export class Shooting extends Enemy {
             this.setCurrentAnimationByNameIfNotPlaying("idle_" + this.shootDirection);
         });
 
-        this.soundManager.playIfNotPlaying("enemy_shoot");
+        this.soundManager.playIfNotPlaying("ranged_attack");
         this.bulletController.shoot(Object.id(this), this.damage, bulletX, bulletY, 3, 200, this.shootDirection);
     }
 }

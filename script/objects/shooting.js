@@ -3,10 +3,9 @@ import { Enemy } from "./enemy.js";
 export class Shooting extends Enemy {
     bulletController;
     shootDirection = "left";
-    soundManager;
 
     constructor(x, y, player, bulletController, soundManager) {
-        super("Kobold Priest", x, y, 17, 18, 6, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png", 7.5, 1, 1, player);
+        super("Kobold Priest", x, y, 17, 18, 6, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png", 7.5, 1, 1, player, soundManager);
 
         this.addAnimationInformation("idle_right", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png");
         this.addAnimationInformation("idle_left", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestIdleLeft.png");
@@ -25,7 +24,6 @@ export class Shooting extends Enemy {
         });
 
         this.bulletController = bulletController;
-        this.soundManager = soundManager;
         this.timeToNextShot = 10;
     }
 
@@ -40,6 +38,14 @@ export class Shooting extends Enemy {
             this.position.y -= this.attackSpeed * 2;
         } else if(this.player.position.y > this.position.y) {
             this.position.y += this.attackSpeed * 2;
+        }
+    }
+
+    applyDamage(amount) {
+        super.applyDamage(amount);
+        
+        if(this.healthPoints <= 0) {
+            this.soundManager.playIfNotPlaying("ranged_death");
         }
     }
 

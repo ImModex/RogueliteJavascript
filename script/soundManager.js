@@ -9,10 +9,14 @@ export class SoundManager {
         this.loadVolume();
 
         this.addSound("player_hurt", "./sound/player/damage.ogg");
-        this.addSound("player_shoot", "./sound/player/shooting.mp3");
+        this.addSound("player_shoot", "./sound/player/shoot.mp3");
         this.addSound("player_move", "./sound/player/steps.mp3");
 
-        this.addSound("enemy_shoot", "./sound/enemy/shooting.wav");
+        this.addSound("ranged_attack", "./sound/enemy/range_attack.mp3");
+        this.addSound("ranged_death", "./sound/enemy/range_deathsound.mp3");
+
+        this.addSound("melee_attack", "./sound/enemy/melee_attack.wav");
+        this.addSound("melee_death", "./sound/enemy/melee_deathsound.wav");
     }
 
     // Get sound from array by name
@@ -109,9 +113,9 @@ export class SoundManager {
         this.volume = volume;
         window.localStorage.setItem("volume", volume);
 
-        this.sounds.forEach(sound => {
+        Object.values(this.sounds).forEach(sound => {
             sound.volume = volume;
-        });
+        })
     }
 
     // Loads volume from localstorage, 0.5 if it is not sent
@@ -121,5 +125,8 @@ export class SoundManager {
             this.volume = 0.5;
             window.localStorage.setItem("volume", this.volume);
         }
+
+        this.setVolume(this.volume);
+        return this.volume;
     }
 };

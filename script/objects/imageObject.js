@@ -52,6 +52,8 @@ export class ImageObject extends GameObject {
         if (src) {
             this.image.src = src;
         }
+
+        this.fixPosition();
     }
 
     

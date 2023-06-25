@@ -8,8 +8,9 @@ export class Enemy extends ImageObject {
     damage;
     attackSpeed;
     player;
+    soundManager;
 
-    constructor(name, x, y, width, height, scaleFactor, sprite, healthPoints, damage, attackSpeed, player) {
+    constructor(name, x, y, width, height, scaleFactor, sprite, healthPoints, damage, attackSpeed, player, soundManager) {
         super(name, x, y, width, height, scaleFactor, sprite);
 
         this.healthPoints = healthPoints;
@@ -18,6 +19,7 @@ export class Enemy extends ImageObject {
         this.attackSpeed = attackSpeed;
 
         this.player = player;
+        this.soundManager = soundManager;
     }
 
     update(){}

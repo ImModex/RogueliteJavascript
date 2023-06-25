@@ -3,9 +3,6 @@ export class GameObject {
     hasCollisions = false;
     name;
 
-    iframe = false;
-    iframeDuration = 1000;
-
     colors = {
         color: "#000000",
         borderColor: "#000000"
@@ -70,6 +67,16 @@ export class GameObject {
         this.dimensions.height = height;
         this.colors.color = color;
         this.colors.borderColor = borderColor;
+    }
+
+    fixPosition() {
+        if(this.x + this.dimensions.scaledWidth >= screen.width) {
+            this.x = screen.width - this.dimensions.scaledWidth;
+        }
+
+        if(this.y + this.dimensions.scaledHeight >= screen.height) {
+            this.y = screen.height - this.dimensions.scaledHeight;
+        }
     }
 
     update() {

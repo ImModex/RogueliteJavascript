@@ -2,8 +2,8 @@ import { Enemy } from "./enemy.js";
 
 export class Zombie extends Enemy {
 
-    constructor(x, y, player) {
-        super("Zombie", x, y, 25, 25, 7, "./img/enemies/brainMole/facingRight/brainMoleIdle.png", 10, 1, 1, player);
+    constructor(x, y, player, soundManager) {
+        super("Zombie", x, y, 25, 25, 7, "./img/enemies/brainMole/facingRight/brainMoleIdle.png", 10, 1, 1, player, soundManager);
 
         this.addAnimationInformation("idle_right", 25, 25, 0, 3, 3, "./img/enemies/brainMole/facingRight/brainMoleIdle.png");
         this.addAnimationInformation("idle_left", 25, 25, 0, 3, 3, "./img/enemies/brainMole/facingLeft/brainMoleIdleLeft.png");
@@ -40,6 +40,14 @@ export class Zombie extends Enemy {
             this.position.y += this.attackSpeed;
         } else if(this.position.y > this.player.position.y) {
             this.position.y -= this.attackSpeed;
+        }
+    }
+
+    applyDamage(amount) {
+        super.applyDamage(amount);
+        
+        if(this.healthPoints <= 0) {
+            this.soundManager.playIfNotPlaying("melee_death");
         }
     }
 }

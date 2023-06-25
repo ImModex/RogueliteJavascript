@@ -11,6 +11,9 @@ export class Player extends ImageObject {
     soundManager;
     bulletController;
 
+    iframe = false;
+    iframeDuration = 1000;
+
     // TODO: Player can walk through right and bottom wall lol
     constructor(name, x, y, health, damage, attackSpeed, bulletController, canvas, inputHandler, soundManager) {
         super(name, x, y, 13, 21, 10, "./img/player/player_idle.png");
@@ -46,6 +49,7 @@ export class Player extends ImageObject {
 
     applyDamage(amount) {
         this.healthPoints -= amount;
+        this.soundManager.playIfNotPlaying("player_hurt");
 
         // Object died
         if(this.healthPoints <= 0);

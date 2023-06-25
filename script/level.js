@@ -45,7 +45,6 @@ export class Level {
             do {
                 position.x = Math.floor(Math.random() * screen.width);
                 position.y = Math.floor(Math.random() * screen.height);
-                console.log(eulerDistance(this.playerObject, {position}));
             } while(eulerDistance(this.playerObject, {position}) < 600);
 
             switch (type) {
@@ -101,7 +100,7 @@ export class Level {
             // Enemy collides with player bullet
             this.bulletController.bullets.filter(bullet => bullet.owner === Object.id(this.playerObject)).forEach(playerBullet => {
                 if(AxisAlignedBoundingBoxCheck(enemy, playerBullet)) {
-                    collide(enemy, playerBullet);
+                    collide(enemy, playerBullet, false);
                 }
             });
         });
@@ -109,7 +108,7 @@ export class Level {
         // Player collides with enemy bullet
         this.bulletController.bullets.filter(bullet => bullet.owner !== Object.id(this.playerObject)).forEach(enemyBullet => {
             if(AxisAlignedBoundingBoxCheck(this.playerObject, enemyBullet)) {
-                collide(this.playerObject, enemyBullet);
+                collide(this.playerObject, enemyBullet, false);
             }
         });
     }

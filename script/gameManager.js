@@ -1,4 +1,5 @@
 import { Canvas } from "./canvas.js";
+import { events } from "./events.js";
 import { Level } from "./level.js";
 
 export class GameManager {
@@ -12,11 +13,16 @@ export class GameManager {
     // Canvas reference to draw on
     canvas = null;
 
+    // Animation frame handle
+    animationFrameHandle = null;
+
     // Delta time, used to dynamically scale velocities and timings to frame times
     // When someone lags -> Things would move / happen slower, therefore we use deltatime
     // to compensate that by increasing speed / tick so less ticks with higher speed
     // equal lower speed with more ticks
     dt = 0;
+
+    paused = false;
 
 
     constructor() {
@@ -39,6 +45,27 @@ export class GameManager {
     start() {
         this.lastTick = Date.now();
         this.gameLoop();
+        this.paused = false;
+    }
+    
+    restart() {
+        this.canvas = new Canvas(16, 9, "canvas");
+        this.level = new Level(2, this.canvas);
+
+        if(this.animationFrameHandle)
+            cancelAnimationFrame(this.animationFrameHandle);
+        this.start();
+    }
+
+    togglePause() {
+        if(this.paused) {
+            this.gameLoop();
+        } else {
+            if(this.animationFrameHandle)
+                cancelAnimationFrame(this.animationFrameHandle);
+        }
+
+        this.paused = !this.paused;
     }
 
     // Main game loop, will run 60 times / second (or less!!!)
@@ -60,11 +87,11 @@ export class GameManager {
 
         
         if(this.level.playerObject.healthPoints <= 0) {
-            // dead
+            dispatchEvent(events.playerDeath);
             return;
         }
 
-        requestAnimationFrame(this.gameLoop.bind(this));
+        this.animationFrameHandle = requestAnimationFrame(this.gameLoop.bind(this));
     }
 
     // Calculates time taken between ticks, ideally 16.666ms = 60fps

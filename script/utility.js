@@ -42,12 +42,14 @@ export const AxisAlignedBoundingBoxCheck = (a, b) => {
            a.boundaries.bottomBoundary() >= b.boundaries.topBoundary();
 }
 
-export const collide = (a, b) => {
+export const collide = (a, b, iframe = true) => {
     a.onCollision(b);
     b.onCollision(a);
 
-    setIframe(a);
-    setIframe(b);
+    if(iframe) {
+        setIframe(a);
+        setIframe(b);
+    }
 }
 
 export const eulerDistance = (a, b) => {

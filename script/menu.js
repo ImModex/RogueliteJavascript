@@ -27,6 +27,7 @@ window.onkeydown = (event) => {
                 if(!started) return;
                 togglePause();
                 gameManager.togglePause();
+                break;
             }
             case settingsMenu: {
                 if(!started) {
@@ -35,6 +36,7 @@ window.onkeydown = (event) => {
                 }
                 togglePause();
                 gameManager.togglePause();
+                break;
             }
         }
     }

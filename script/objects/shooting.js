@@ -10,8 +10,8 @@ export class Shooting extends Enemy {
         this.addAnimationInformation("idle_right", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png");
         this.addAnimationInformation("idle_left", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestIdleLeft.png");
         
-        this.addAnimationInformation("attack_right", 23, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestAttackBorderCenter.png");
-        this.addAnimationInformation("attack_left", 23, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestAttackBorderCenterButFacingLeft.png");
+        this.addAnimationInformation("attack_right", 24, 18, 0, 5, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestAttackRightNew.png");
+        this.addAnimationInformation("attack_left", 24, 18, 0, 5, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestAttackLeftNew.png");
 
         this.addAnimationInformation("death_right", 26, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestDeath.png");
         this.addAnimationInformation("death_left", 26, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestDeathLeft.png");

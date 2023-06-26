@@ -31,6 +31,7 @@ export class Zombie extends Enemy {
         if(this.position.x < this.player.position.x) {
             this.setCurrentAnimationByNameIfNotPlaying("idle_right");
             this.position.x += this.attackSpeed;
+
         } else if(this.position.x > this.player.position.x) {
             this.setCurrentAnimationByNameIfNotPlaying("idle_left");
             this.position.x -= this.attackSpeed;

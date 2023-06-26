@@ -10,6 +10,18 @@ redHeart.src = "./img/health/redHeart.png";
 const hpUi = new Image();
 hpUi.src = "./img/health/hpUi.png";
 
+/*
+
+const myFont = new FontFace('My Font', 'url(./css/font/DungeonFont.ttf)');
+
+myFont.load().then((font) => {
+    document.fonts.add(font);
+    console.log('Font loaded');
+});
+
+
+
+*/
 export function drawHealthBar(canvas, player) {
     //canvas.drawLayer.drawImage(img, x, y, width, height);
     let currentX = canvas.canvasBoundaries.left + 5;
@@ -50,4 +62,14 @@ export function drawEnemyHealthbar(canvas, enemy) {
     canvas.drawLayer.fillStyle = "green";
     canvas.drawLayer.fillRect(enemy.position.x + offsetX, enemy.position.y - offsetY, hp, 20);
     canvas.drawLayer.strokeRect(enemy.position.x + offsetX, enemy.position.y - offsetY, 100, 20);
+}
+
+export function drawWaveCounter(canvas, waveCounter){
+    canvas.drawLayer.font = "48px m6x11";
+    canvas.drawLayer.strokeStyle = '#23162C';
+    canvas.drawLayer.lineWidth = 15;
+    
+    canvas.drawLayer.fillStyle = '#FFFFFF';
+    canvas.drawLayer.strokeText('WAVE : ' + waveCounter, canvas.width - 220, 50)
+    canvas.drawLayer.fillText('WAVE : ' + waveCounter ,canvas.width - 220, 50);
 }

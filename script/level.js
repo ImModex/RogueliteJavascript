@@ -3,7 +3,7 @@ import { BulletController } from "./objects/BulletController.js";
 import { Player } from "./objects/player.js";
 import { Shooting } from "./objects/shooting.js";
 import { Zombie } from "./objects/zombie.js";
-import { drawHealthBar, drawEnemyHealthbar } from "./userinterface.js";
+import { drawHealthBar, drawEnemyHealthbar, drawWaveCounter } from "./userinterface.js";
 import { AxisAlignedBoundingBoxCheck, collide, eulerDistance } from "./utility.js";
 import { SoundManager } from "./soundManager.js";
 
@@ -16,6 +16,7 @@ export class Level {
     soundManager = null;
     canvas = null;
     wave = null;
+    waveCounter = 1;
 
     constructor(enemyCount, canvas) {
         this.canvas = canvas;
@@ -76,7 +77,7 @@ export class Level {
 
         this.playerObject.update();
         this.playerObject.draw(canvas);
-
+        drawWaveCounter(canvas, this.waveCounter);
         drawHealthBar(canvas, this.playerObject);
     }
 

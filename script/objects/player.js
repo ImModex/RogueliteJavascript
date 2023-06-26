@@ -21,9 +21,9 @@ export class Player extends ImageObject {
         //this.setBoundaryOffset(22, -17, -23, 18);
         this.addAnimationInformation("idle", 13, 21, 0, 5, 3, "./img/player/player_idle.png");
         this.addAnimationInformation("up", 13, 21, 0, 5, 3, "./img/player/player_up.png");
-        this.addAnimationInformation("right", 15, 21, 0, 5, 3, "./img/player/player_right.png");
+        this.addAnimationInformation("right", 15, 21, 0, 2, 3, "./img/player/player_right.png");
         this.addAnimationInformation("down", 13, 21, 0, 5, 3, "./img/player/player_down.png");
-        this.addAnimationInformation("left", 15, 21, 0, 5, 3, "./img/player/player_left.png");
+        this.addAnimationInformation("left", 15, 21, 0, 2, 3, "./img/player/player_left.png");
 
         this.setCurrentAnimationByName("idle", () => {
             // Called when animation is done

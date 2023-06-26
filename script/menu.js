@@ -4,6 +4,8 @@ const startButton = document.getElementById('btn-start');
 const settingsButton = document.getElementById('btn-settings');
 const backButton = document.getElementById('btn-back');
 
+const buttons = [ startButton, settingsButton, backButton ];
+
 const startMenu = document.getElementById('menu');
 const settingsMenu = document.getElementById('settings');
 const canvasElement = document.getElementById('canvas');
@@ -73,12 +75,22 @@ backButton.onclick = () => {
     hideAllExcept(startMenu);
 }
 
-volumeSlider.value = gameManager.level.soundManager.loadVolume() * 100;
+volumeSlider.value = gameManager.soundManager.loadVolume() * 100;
 volumeSlider.oninput = (event) => {
-    gameManager.level.soundManager.setVolume(event.target.value / 100);
+    gameManager.soundManager.setVolume(event.target.value / 100);
 }
 
 window.addEventListener("playerDeath", () => {
     togglePause();
     gameManager.togglePause();    
 });
+
+buttons.forEach(button => {
+    button.onmouseover = () => {
+        gameManager.soundManager.play("menu_hover");
+    }
+});
+
+window.onload = () => {
+    gameManager.soundManager.play("background_music");
+}

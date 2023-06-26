@@ -17,6 +17,10 @@ export class SoundManager {
 
         this.addSound("melee_attack", "./sound/enemy/melee_attack.wav");
         this.addSound("melee_death", "./sound/enemy/melee_deathsound.wav");
+
+        this.addSound("game_over", "./sound/game/game-over-arcade.mp3");
+        this.addSound("menu_hover", "./sound/game/mouse_hover_menu.wav");
+        this.addSound("background_music", "./sound/game/background_music.mp3");
     }
 
     // Get sound from array by name
@@ -40,16 +44,21 @@ export class SoundManager {
 
     // Play a sound from name
     // Callback gets executed when sound is done playing
-    play(name, loop = false, callback) {
-        const sound = this.getSound(name);
+    async play(name, loop = false, callback) {
+        try {
+            const sound = this.getSound(name);
 
-        if(!sound.paused) {
             sound.pause();
             sound.currentTime = 0;
-        }
 
-        sound.loop = loop;
-        sound.play();
+            sound.loop = loop;
+            await sound.play();
+        } catch (e) {
+            setTimeout(() => {
+                this.play(name, loop, callback);
+            }, 100);
+            return;
+        }
         
 
         if(callback) {

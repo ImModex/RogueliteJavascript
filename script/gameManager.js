@@ -1,6 +1,7 @@
 import { Canvas } from "./canvas.js";
 import { events } from "./events.js";
 import { Level } from "./level.js";
+import { SoundManager } from "./soundManager.js";
 
 export class GameManager {
 
@@ -22,6 +23,8 @@ export class GameManager {
     // equal lower speed with more ticks
     dt = 0;
 
+    soundManager = null;
+
     paused = false;
 
 
@@ -38,7 +41,8 @@ export class GameManager {
             this.soundManager.play("oof", true, () => { console.log("hi"); this.soundManager.stop(); this.soundManager.play("oof", false, () => console.log(2)); });
         });*/
 
-        this.level = new Level(2, this.canvas);
+        this.soundManager = new SoundManager();
+        this.level = new Level(2, this.canvas, this.soundManager);
     }
 
     // Initialize game and start loop
@@ -50,7 +54,7 @@ export class GameManager {
     
     restart() {
         this.canvas = new Canvas(16, 9, "canvas");
-        this.level = new Level(2, this.canvas);
+        this.level = new Level(2, this.canvas, this.soundManager);
 
         if(this.animationFrameHandle)
             cancelAnimationFrame(this.animationFrameHandle);
@@ -89,8 +93,8 @@ export class GameManager {
         
         if(this.level.playerObject.healthPoints <= 0) {
             dispatchEvent(events.playerDeath);
-            console.log(this.level.soundManager);
-            this.level.soundManager.stop();
+            this.soundManager.stop();
+            this.soundManager.play("game_over");
             return;
         }
 

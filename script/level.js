@@ -18,11 +18,11 @@ export class Level {
     wave = null;
     waveCounter = 1;
 
-    constructor(enemyCount, canvas) {
+    constructor(enemyCount, canvas, soundManager) {
         this.canvas = canvas;
         this.wave = enemyCount;
         this.bulletController = new BulletController();
-        this.soundManager = new SoundManager();
+        this.soundManager = soundManager;
         this.inputHandler = new InputHandler(this.canvas);
         this.playerObject = new Player("Test", screen.width/2, screen.height/3, 5, 2.5, 5, this.bulletController, canvas, this.inputHandler, this.soundManager);
 

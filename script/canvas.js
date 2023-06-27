@@ -1,3 +1,4 @@
+// This class represents the HTML canvas with additional properties
 export class Canvas {
 
     // Canvas html element
@@ -7,7 +8,7 @@ export class Canvas {
     // Canvas boundaries on the html site
     canvasBoundaries;
 
-    // Rows and columns
+    // Rows and columns for grid
     columns;
     rows;
 
@@ -46,6 +47,7 @@ export class Canvas {
         this.gridHeight = this.canvasElement.height / rows;
     }
 
+    // deprecated
     update() {
         this.canvasElement.width = screen.width;
         this.canvasElement.height = screen.height;

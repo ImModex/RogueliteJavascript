@@ -1,13 +1,15 @@
+// Handles input across the game
 export class InputHandler {
 
-    // Player and game canvas TODO: Change to gameManager handling
     canvas;
 
+    // W A S D
     rightPressed = false;
     leftPressed = false;
     upPressed = false;
     downPressed = false;
 
+    // ARROW KEYS
     rightShotPressed = false;
     leftShotPressed = false;
     upShotPressed = false;
@@ -77,6 +79,7 @@ export class InputHandler {
         }
     }
 
+    // Moves the player into the direction of input and plays the animation accordingly
     updateCoordinates(player) {
         if(!this.rightPressed && !this.leftPressed && !this.downPressed && !this.upPressed) {
             player.setCurrentAnimationByNameIfNotPlaying("idle");

@@ -1,3 +1,12 @@
+/*
+*   This class is used to handle sounds
+*   It can handle 
+*   - playing sounds concurrently
+*   - change, store and load volume from localStorage
+*   - add any number of sounds
+*   - cache sounds to prevent unnecessary extra loading
+*   - call a function when sound is done playing
+*/
 export class SoundManager {
     // Associative array where name is the key and HTMLAudioElement is the value
     sounds = [];
@@ -73,19 +82,20 @@ export class SoundManager {
         }
     }
 
+    // Workaround to not restart a sound that is already playing
     playIfNotPlaying(name, loop = false, callback) {
         if(this.getSound(name) && this.getSound(name).paused) {
             this.play(name, loop, callback);
         }
     }
 
-    pause() {
-        this.sounds.keys().forEach(sound => { this.pause(sound) });
-    }
-
-    // Pauses current sound
+    // Pauses current sound or all sounds if no argument is passed
     pause(name) {
-        this.getSound[name].pause();
+        if(!name) {
+            Object.keys(this.sounds).forEach(sound => { this.pause(sound) });
+            return;
+        }
+        this.getSound(name).pause();
 
         if(this.callbackInterval) {
             clearInterval(this.callbackInterval);
@@ -93,6 +103,7 @@ export class SoundManager {
         }
     }
 
+    // Resumes current sound or all sounds if no argument is passed
     resume(name) {
         if(!name) {
             Object.keys(this.sounds).forEach(sound => { this.resume(sound) });
@@ -103,6 +114,7 @@ export class SoundManager {
             this.getSound(name).play();
     }
 
+    // Stops current sound or all sounds if no argument is passed
     stop(name) {
         if(!name) {
             Object.keys(this.sounds).forEach(sound => { this.stop(sound) });

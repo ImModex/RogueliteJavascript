@@ -1,5 +1,6 @@
 import { GameObject } from "./gameObject.js";
 
+// This class represents a general object that has a sprite
 export class ImageObject extends GameObject {
 
     // Js image object
@@ -56,7 +57,9 @@ export class ImageObject extends GameObject {
         this.fixPosition();
     }
 
-    
+    /*
+    *
+    */
     draw(canvas) {
         if(this.isLoaded) {
             this.changeFrameOfCurrentAnimation();
@@ -73,36 +76,51 @@ export class ImageObject extends GameObject {
     }
     
     updateAnimation() {
-        if (this.rows === 1 && this.columns === 1) {                        // for objects who dont update their animations (cos eg no collision function)
+        if (this.rows === 1 && this.columns === 1) {                        // for objects that don't update their animations (e.g. no collision function)
             this.setCurrentAnimationByName(this.currentAnimationName);      // --> standard values for columns/rows will be overriten a bit later + standard animation is set
         }
     }
 
 
+    /*
+    *   Every animation is basically multiple "steps" in one big image.
+    *   So every frame is it's own sub-image in one animation image.
+    *   This function determines when to switch over to the next sub-image,
+    *   and also handles the switching over calculations.
+    */
     changeFrameOfCurrentAnimation() {
+        // Static image workaround - DEPRECATED - 
         this.updateAnimation();
 
+        // Counts the frames and returns if it is "too early" to switch to the next frame
+        // (Target frame rate is 60fps!!!)
         this.frameCount++;
         if (this.frameCount < 60 / this.fps) {
             return;
         }
         this.frameCount = 0;
+
+        // For when the animation reached its end
         if (this.currentAnimationFrame > this.currentEndFrame) {
-            this.currentAnimationFrame = this.currentStartFrame;
-            if (this.callback) this.callback();
+            this.currentAnimationFrame = this.currentStartFrame;    // Loop back to start frame
+            if (this.callback) this.callback();                     // Call the callback function
             if(!this.isActive) return;
         }
     
+        // Calculate sub-image coordinates in the animation image and set them as current position
         let currentRow = Math.floor(this.currentAnimationFrame / this.columns); 
         let currentColumn = this.currentAnimationFrame % this.columns;
         this.currentSourceY = currentRow * this.dimensions.height;
         this.currentSourceX = currentColumn * this.dimensions.width;
         
+        // Increment to the next frame
         this.currentAnimationFrame++;      
     }
 
+    // Adds an animation with its information
     addAnimationInformation(name, width, height, startFrame, endFrame, fps, src) {
-        let image = new Image();                                            // saves images of animations in cache --> doesnt have to load new image every single time
+        // Saves images of animations in cache --> doesnt have to load new image every single time
+        let image = new Image();
         image.src = src;
         image.addEventListener("load", () => {
             this.isLoaded = true;
@@ -114,12 +132,14 @@ export class ImageObject extends GameObject {
                 "height": height
             }
         });
+
+        // Template animation information will be overwritten once image is loaded
         let animationInformation = {
             "startFrame": startFrame,
             "endFrame": endFrame,
             "fps": fps,
             "image": this.image,
-            "columns": 1,                   // standard value, will be overriten as soon as objects are updated (eg on collision, key input, etc)
+            "columns": 1,
             "rows": 1,
             "dimensions": {
                 "height": height,
@@ -129,12 +149,14 @@ export class ImageObject extends GameObject {
         this.animations[name] = animationInformation;
     }
 
+    // Workaround to not interrupt current animation if it is already running
     setCurrentAnimationByNameIfNotPlaying(name, callback) {
         if(this.currentAnimationName === name) return;
 
         this.setCurrentAnimationByName(name, callback);
     }
 
+    // Load animation information by name and set it as current
     setCurrentAnimationByName(name, callback) {
         this.currentStartFrame = this.animations[name].startFrame;
         this.currentEndFrame = this.animations[name].endFrame;
@@ -152,6 +174,7 @@ export class ImageObject extends GameObject {
         this.dimensions.scaledWidth = this.animations[name].dimensions.width * this.scaleFactor;
         this.dimensions.scaledHeight = this.animations[name].dimensions.height * this.scaleFactor;
 
+        // Set framecount to MAX VALUE so new animation gets drawn immediately
         this.frameCount = Number.MAX_VALUE;
     }
 

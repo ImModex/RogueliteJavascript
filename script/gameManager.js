@@ -3,13 +3,11 @@ import { events } from "./events.js";
 import { Level } from "./level.js";
 import { SoundManager } from "./soundManager.js";
 
+// This class represents the manager for the entire game
 export class GameManager {
 
-    // Level object
+    // Level object holds all in-game objects and manager instances
     level = null;
-
-    // Store all game objects without player
-    gameObjects = [];
 
     // Canvas reference to draw on
     canvas = null;
@@ -25,22 +23,13 @@ export class GameManager {
 
     soundManager = null;
 
+    // Whether to pause the game loop or not
     paused = false;
 
 
+    // Instanciate canvas, sound manager and generate a level
     constructor() {
-        // Get canvas from html and initialize
         this.canvas = new Canvas(16, 9, "canvas");
-
-
-        // Add sound named "oof" with source
-        // When sound is loaded, play it and loop = true
-        // When sound is done playing (every time it is done playing if loop = true), execute callback
-        /*
-        this.soundManager.addSound("oof", "./sound/oof.mp3").then(() => {
-            this.soundManager.play("oof", true, () => { console.log("hi"); this.soundManager.stop(); this.soundManager.play("oof", false, () => console.log(2)); });
-        });*/
-
         this.soundManager = new SoundManager();
         this.level = new Level(2, this.canvas, this.soundManager);
     }
@@ -52,8 +41,8 @@ export class GameManager {
         this.paused = false;
     }
     
+    // Generate a new level, cancel the old loop and start over
     restart() {
-        this.canvas = new Canvas(16, 9, "canvas");
         this.level = new Level(2, this.canvas, this.soundManager);
 
         if(this.animationFrameHandle)
@@ -80,6 +69,8 @@ export class GameManager {
 
         this.level.update(this.canvas);
 
+        // When a level is done, increase current wave, clear bullets and generate new enemies
+        // Also heals the player for +1hp / wave
         if(!this.level.isActive()) {
             this.level.wave++;
             this.level.waveCounter++;
@@ -90,7 +81,7 @@ export class GameManager {
             }
         }
 
-        
+        // If the player dies, dispatch death-event and play game-over sound
         if(this.level.playerObject.healthPoints <= 0) {
             dispatchEvent(events.playerDeath);
             this.soundManager.stop();
@@ -98,6 +89,7 @@ export class GameManager {
             return;
         }
 
+        // Maybe swap this with setTimeout with deltatime calculations
         this.animationFrameHandle = requestAnimationFrame(this.gameLoop.bind(this));
     }
 

@@ -1,5 +1,6 @@
 import { Enemy } from "./enemy.js";
 
+// This class represents the Kobold Priest - A ranged enemy
 export class Shooting extends Enemy {
     bulletController;
     shootDirection = "left";
@@ -7,6 +8,7 @@ export class Shooting extends Enemy {
     constructor(x, y, player, bulletController, soundManager) {
         super("Kobold Priest", x, y, 17, 18, 6, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png", 7.5, 1, 1, player, soundManager);
 
+        // Add animations
         this.addAnimationInformation("idle_right", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestIdle.png");
         this.addAnimationInformation("idle_left", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestIdleLeft.png");
         
@@ -19,21 +21,21 @@ export class Shooting extends Enemy {
         this.addAnimationInformation("hurt_right", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingRight/koboldPriestHurt.png");
         this.addAnimationInformation("hurt_left", 17, 18, 0, 3, 1.5, "./img/enemies/koboldPriest/facingLeft/koboldPriestHurtLeft.png");
 
-        this.setCurrentAnimationByName("idle_right", () => {
-            // Called when animation is done
-        });
+        // Set default animation
+        this.setCurrentAnimationByName("idle_right");
 
         this.bulletController = bulletController;
         this.timeToNextShot = 10;
     }
 
+    // Move and try to shoot every frame
     update() {
         this.move();
         this.shoot();
     }
 
+    // Handle movement - Only moves up and down for now
     move() {
-        // TODO: Move x position??
         if(this.player.position.y < this.position.y) {
             this.position.y -= this.attackSpeed * 2;
         } else if(this.player.position.y > this.position.y) {
@@ -49,6 +51,7 @@ export class Shooting extends Enemy {
         }
     }
 
+    // Shoot a bullet and play shooting animation
     shoot() {
         const bulletX = this.position.x + (this.dimensions.scaledWidth / 2);
         const bulletY = this.position.y + (this.dimensions.scaledHeight / 2);

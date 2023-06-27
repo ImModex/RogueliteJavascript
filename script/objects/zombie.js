@@ -1,10 +1,12 @@
 import { Enemy } from "./enemy.js";
 
+// This class represents the Zombie - A melee enemy
 export class Zombie extends Enemy {
 
     constructor(x, y, player, soundManager) {
         super("Zombie", x, y, 25, 25, 7, "./img/enemies/brainMole/facingRight/brainMoleIdle.png", 10, 1, 1, player, soundManager);
 
+        // Add animations
         this.addAnimationInformation("idle_right", 25, 25, 0, 3, 3, "./img/enemies/brainMole/facingRight/brainMoleIdle.png");
         this.addAnimationInformation("idle_left", 25, 25, 0, 3, 3, "./img/enemies/brainMole/facingLeft/brainMoleIdleLeft.png");
         
@@ -17,16 +19,16 @@ export class Zombie extends Enemy {
         this.addAnimationInformation("hurt_right", 25, 25, 0, 3, 3, "./img/enemies/brainMole/facingRight/brainMoleHurt.png");
         this.addAnimationInformation("hurt_left", 25, 25, 0, 3, 3, "./img/enemies/brainMole/facingLeft/brainMoleHurtLeft.png");
 
-        this.setCurrentAnimationByName("idle_right", () => {
-            // Called when animation is done
-        });
+        // Set default animation
+        this.setCurrentAnimationByName("idle_right");
     }
 
+    // Track the player every frame
     update() {
         this.followPlayer();
     }
 
-    // TODO: add special abilities for zombie
+    // Makes the Zombie move towards the player
     followPlayer() {
         if(this.position.x < this.player.position.x) {
             this.setCurrentAnimationByNameIfNotPlaying("idle_right");

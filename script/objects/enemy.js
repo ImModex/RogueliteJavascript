@@ -2,6 +2,7 @@ import { ImageObject } from "./imageObject.js";
 import { ObjectManager } from "../utility.js";
 import { Player } from "./player.js";
 
+// This is the parent class for all enemies
 export class Enemy extends ImageObject {
     healthPoints;
     maxHealth;
@@ -35,8 +36,10 @@ export class Enemy extends ImageObject {
 
     onCollision(object) {
         if(object.iframe) return;
+        // Enemy cannot only hit the player
         if(ObjectManager.getObjectById(this.owner) === object || !(object instanceof Player)) return;
 
+        // Play attack sound and apply damage to object hit
         this.soundManager.playIfNotPlaying("melee_attack");
         object.applyDamage(this.damage);
     }

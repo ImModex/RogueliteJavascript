@@ -5,44 +5,47 @@ import { Shooting } from "./objects/shooting.js";
 import { Zombie } from "./objects/zombie.js";
 import { drawHealthBar, drawEnemyHealthbar, drawWaveCounter } from "./userinterface.js";
 import { AxisAlignedBoundingBoxCheck, collide, eulerDistance } from "./utility.js";
-import { SoundManager } from "./soundManager.js";
 
+// This class holds data of a level
 export class Level {
     playerObject = null;
     enemyObjects = [];
     gameObjects = [];
+
     bulletController = null;
     inputHandler = null;
     soundManager = null;
+    
     canvas = null;
+    
     wave = null;
     waveCounter = 1;
 
+    // Sound manager is being passed into the level so sound can be player in menus
     constructor(enemyCount, canvas, soundManager) {
         this.canvas = canvas;
         this.wave = enemyCount;
-        this.bulletController = new BulletController();
         this.soundManager = soundManager;
+        this.bulletController = new BulletController();
         this.inputHandler = new InputHandler(this.canvas);
-        this.playerObject = new Player("Test", screen.width/2, screen.height/3, 5, 2.5, 5, this.bulletController, canvas, this.inputHandler, this.soundManager);
+        this.playerObject = new Player("Player", screen.width/2, screen.height/3, 5, 2.5, 5, this.bulletController, canvas, this.inputHandler, this.soundManager);
 
-        // Random coordinates for each enemy
-        //let randX = Math.floor(Math.random() * ((screen.width-screen.width/6) - screen.width/2 + 1) + screen.width/2);
-        //let randY = Math.floor(Math.random() * ((screen.height-200) - 0 + 1) + 0);
         this.generateEnemies(enemyCount);
     }
 
+    // Generate <count> enemies with random locations and a minimum distance to the player
+    // Enemy type is also randomized
     generateEnemies(count) {
         for(let i = 0; i < count; ++i) {
             let type = Math.floor(Math.random() * 2);
 
-            let x = Math.floor(Math.random()*2);
-            
+            // Enemy position
             let position = {
                 x: 0,
                 y: 0
             };
 
+            // Regenerate enemy position while it is too close to player
             do {
                 position.x = Math.floor(Math.random() * screen.width);
                 position.y = Math.floor(Math.random() * screen.height);
@@ -62,13 +65,16 @@ export class Level {
         }
     }
 
+    // Update level every frame
     update(canvas) {
+        // Removes all objects that have the active attribute set to false
         this.removeInactiveObjects();
+        // Check and handle collisions of objects
         this.checkCollisions();
 
         this.bulletController.update();
         this.bulletController.draw(canvas);
-        
+
         this.enemyObjects.forEach(enemy => {
             enemy.update();
             enemy.draw(canvas);
@@ -77,14 +83,17 @@ export class Level {
 
         this.playerObject.update();
         this.playerObject.draw(canvas);
+
         drawWaveCounter(canvas, this.waveCounter);
         drawHealthBar(canvas, this.playerObject);
     }
 
+    // If there is no enemies, 
     isActive() {
         return this.enemyObjects.length > 0;
     }
 
+    // Filter out all inactive objects
     removeInactiveObjects() {
         this.enemyObjects = this.enemyObjects.filter(enemy => enemy.active);
         this.gameObjects = this.gameObjects.filter(object => object.active);

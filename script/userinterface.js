@@ -1,3 +1,4 @@
+// Load and cache hearts for the game duration
 const emptyHeart = new Image();
 emptyHeart.src = "./img/health/emptyHearts.png";
 
@@ -10,20 +11,7 @@ redHeart.src = "./img/health/redHeart.png";
 const hpUi = new Image();
 hpUi.src = "./img/health/hpUi.png";
 
-/*
-
-const myFont = new FontFace('My Font', 'url(./css/font/DungeonFont.ttf)');
-
-myFont.load().then((font) => {
-    document.fonts.add(font);
-    console.log('Font loaded');
-});
-
-
-
-*/
 export function drawHealthBar(canvas, player) {
-    //canvas.drawLayer.drawImage(img, x, y, width, height);
     let currentX = canvas.canvasBoundaries.left + 5;
     let currentY = 5;
     let i = 0;
@@ -34,18 +22,18 @@ export function drawHealthBar(canvas, player) {
     if(player.healthPoints <= 0) return;
 
     for(; i < Math.floor(player.healthPoints); ++i) {
-        // ganze Herzen
+        // full hearts
         canvas.drawLayer.drawImage(redHeart, currentX, currentY, redHeart.width*5, redHeart.height*5);
         currentX += redHeart.width*5;
     }
     if(i != player.healthPoints) {
-        // halbes Herz
+        // half heart
         canvas.drawLayer.drawImage(halfRedHeart, currentX, currentY, halfRedHeart.width*5, halfRedHeart.height*5);
         currentX += halfRedHeart.width*5;
         i += 1;
     }
     for(; i < player.maxHealth; ++i) {
-        // leere Herzen
+        // empty hearts
         canvas.drawLayer.drawImage(emptyHeart, currentX, currentY, emptyHeart.width*5, emptyHeart.height*5);
         currentX += emptyHeart.width*5;
     }

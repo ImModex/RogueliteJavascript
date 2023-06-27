@@ -82,7 +82,10 @@ volumeSlider.oninput = (event) => {
 
 window.addEventListener("playerDeath", () => {
     togglePause();
-    gameManager.togglePause();    
+    gameManager.togglePause();
+    setTimeout(() => {
+        gameManager.soundManager.play("background_music", true);
+    }, 500);    
 });
 
 buttons.forEach(button => {
@@ -92,5 +95,5 @@ buttons.forEach(button => {
 });
 
 window.onload = () => {
-    gameManager.soundManager.play("background_music");
+    gameManager.soundManager.play("background_music", true);
 }

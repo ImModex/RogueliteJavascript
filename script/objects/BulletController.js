@@ -1,14 +1,12 @@
 import { Bullet } from "./Bullet.js";
 
+// This class manages all the bullets in the game
 export class BulletController {
+    // Array of bullet objects that are currently active
     bullets = [];
-    timeToNextBullet = 0;
 
+    // Shooting delay for every object in frames
     times = [];
-
-    constructor() {
-        
-    }
 
     update() {
         Object.keys(this.times).forEach(key => {
@@ -17,12 +15,14 @@ export class BulletController {
     }     
 
     shoot(owner, damage, x, y, speed, delay, direction) {
+        // Only shoot a bullet if the shooter is not on cooldown
         if(this.times[owner] <= 0 || !this.times[owner]) {
             this.bullets.push(new Bullet(owner, damage, x, y, speed, direction));
             this.times[owner] = delay;
         }
     }
 
+    // Draw each bullet and remove bullets that are outside the screen
     draw(canvas) {
         this.bullets.forEach((bullet) => {
             if(this.isOffScreen(bullet, canvas)) {
@@ -34,6 +34,7 @@ export class BulletController {
         });
     }
 
+    // Returns true if a bullet is off screen
     isOffScreen(bullet, canvas) {
         switch(bullet.direction) {
             case "right": return bullet.position.x >= canvas.width + bullet.dimensions.width;

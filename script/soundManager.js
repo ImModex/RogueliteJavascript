@@ -1,3 +1,12 @@
+/*
+*   This class is used to handle sounds
+*   It can handle 
+*   - playing sounds concurrently
+*   - change, store and load volume from localStorage
+*   - add any number of sounds
+*   - cache sounds to prevent unnecessary extra loading
+*   - call a function when sound is done playing
+*/
 export class SoundManager {
     // Associative array where name is the key and HTMLAudioElement is the value
     sounds = [];
@@ -9,10 +18,18 @@ export class SoundManager {
         this.loadVolume();
 
         this.addSound("player_hurt", "./sound/player/damage.ogg");
-        this.addSound("player_shoot", "./sound/player/shooting.mp3");
+        this.addSound("player_shoot", "./sound/player/shoot.mp3");
         this.addSound("player_move", "./sound/player/steps.mp3");
 
-        this.addSound("enemy_shoot", "./sound/enemy/shooting.wav");
+        this.addSound("ranged_attack", "./sound/enemy/range_attack.mp3");
+        this.addSound("ranged_death", "./sound/enemy/range_deathsound.mp3");
+
+        this.addSound("melee_attack", "./sound/enemy/melee_attack.wav");
+        this.addSound("melee_death", "./sound/enemy/melee_deathsound.wav");
+
+        this.addSound("game_over", "./sound/game/game-over-arcade.mp3");
+        this.addSound("menu_hover", "./sound/game/mouse_hover_menu.wav");
+        this.addSound("background_music", "./sound/game/background_music.mp3");
     }
 
     // Get sound from array by name
@@ -36,16 +53,21 @@ export class SoundManager {
 
     // Play a sound from name
     // Callback gets executed when sound is done playing
-    play(name, loop = false, callback) {
-        const sound = this.getSound(name);
+    async play(name, loop = false, callback) {
+        try {
+            const sound = this.getSound(name);
 
-        if(!sound.paused) {
             sound.pause();
             sound.currentTime = 0;
-        }
 
-        sound.loop = loop;
-        sound.play();
+            sound.loop = loop;
+            await sound.play();
+        } catch (e) {
+            setTimeout(() => {
+                this.play(name, loop, callback);
+            }, 100);
+            return;
+        }
         
 
         if(callback) {
@@ -60,19 +82,20 @@ export class SoundManager {
         }
     }
 
+    // Workaround to not restart a sound that is already playing
     playIfNotPlaying(name, loop = false, callback) {
         if(this.getSound(name) && this.getSound(name).paused) {
             this.play(name, loop, callback);
         }
     }
 
-    pause() {
-        this.sounds.keys().forEach(sound => { this.pause(sound) });
-    }
-
-    // Pauses current sound
+    // Pauses current sound or all sounds if no argument is passed
     pause(name) {
-        this.getSound[name].pause();
+        if(!name) {
+            Object.keys(this.sounds).forEach(sound => { this.pause(sound) });
+            return;
+        }
+        this.getSound(name).pause();
 
         if(this.callbackInterval) {
             clearInterval(this.callbackInterval);
@@ -80,23 +103,26 @@ export class SoundManager {
         }
     }
 
-    // Resumes currently paused sound
-    resume() {
-        this.sounds.keys().forEach(sound => { this.resume(sound) });
-    }
-
+    // Resumes current sound or all sounds if no argument is passed
     resume(name) {
-        if(this.getSound[name].paused)
-            this.getSound[name].play();
+        if(!name) {
+            Object.keys(this.sounds).forEach(sound => { this.resume(sound) });
+            return;
+        }
+
+        if(this.getSound(name).paused)
+            this.getSound(name).play();
     }
 
-    // Stops currently playing sound
-    stop() {
-        this.sounds.keys().forEach(sound => { this.stop(sound) });
-    }
-
+    // Stops current sound or all sounds if no argument is passed
     stop(name) {
-        this.getSound[name].stop();
+        if(!name) {
+            Object.keys(this.sounds).forEach(sound => { this.stop(sound) });
+            return;
+        }
+
+        this.getSound(name).pause();
+        this.getSound(name).currentTime = 0;
 
         if(this.callbackInterval) {
             clearInterval(this.callbackInterval);
@@ -109,9 +135,9 @@ export class SoundManager {
         this.volume = volume;
         window.localStorage.setItem("volume", volume);
 
-        this.sounds.forEach(sound => {
+        Object.values(this.sounds).forEach(sound => {
             sound.volume = volume;
-        });
+        })
     }
 
     // Loads volume from localstorage, 0.5 if it is not sent
@@ -121,5 +147,8 @@ export class SoundManager {
             this.volume = 0.5;
             window.localStorage.setItem("volume", this.volume);
         }
+
+        this.setVolume(this.volume);
+        return this.volume;
     }
 };

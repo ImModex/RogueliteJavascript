@@ -1,16 +1,19 @@
-export class GameObject { 
+// This class represents the general game object in the game
+export class GameObject {
+    // If this is set to 0, the object will be removed from the game on the next update
     active = 1;
-    hasCollisions = false;
+
+    // Optimization for static objects that do not have collisions
+    hasCollisions = true;
     name;
 
-    iframe = false;
-    iframeDuration = 1000;
-
+    // Colors for the basic renderer, only draws squares
     colors = {
         color: "#000000",
         borderColor: "#000000"
     }
 
+    // Position on the canvas
     position = {
         "x": 90,
         "y": 90,
@@ -22,11 +25,7 @@ export class GameObject {
         }
     };
 
-    prevPosition = {
-        "x": 90,
-        "y": 90
-    };
-
+    // Dimensions of the object, supports scaling by a factor
     dimensions = {
         "width": 0,
         "height": 0,
@@ -34,6 +33,7 @@ export class GameObject {
         "scaledHeight": 0
     };
 
+    // Hitbox offsets if necessary
     offsets = {
         "top": 0,
         "right": 0,
@@ -41,6 +41,7 @@ export class GameObject {
         "left": 0
     }
 
+    // Calculates and returns the position of a boundary
     boundaries = {
         "leftBoundary": () => {
             return this.position.x + this.offsets.left;
@@ -64,6 +65,7 @@ export class GameObject {
 
     constructor(name, x, y, width, height, color, borderColor) {
         this.name = name;
+        // Position can only be a full number!
         this.position.x = Math.round(x);
         this.position.y = Math.round(y);
         this.dimensions.width = width;
@@ -72,21 +74,20 @@ export class GameObject {
         this.colors.borderColor = borderColor;
     }
 
-    update() {
+    // Fix objects that are off-screen
+    fixPosition() {
+        if(this.x + this.dimensions.scaledWidth >= screen.width) {
+            this.x = screen.width - this.dimensions.scaledWidth;
+        }
 
+        if(this.y + this.dimensions.scaledHeight >= screen.height) {
+            this.y = screen.height - this.dimensions.scaledHeight;
+        }
     }
+
+    update() {}
 
     onCollision(object) {}
-
-    storePosition() {
-        this.prevPosition.x = this.position.x;   
-        this.prevPosition.y = this.position.y;
-    }
-
-    restorePosition() {
-        this.position.x = this.prevPosition.x;
-        this.position.y = this.prevPosition.y;
-    }
 
     setBoundaryOffset(top, right, bottom, left) {
         this.offsets.top = top;
@@ -95,6 +96,7 @@ export class GameObject {
         this.offsets.left = left;
     }
 
+    // Draws the object as basic square
     draw(canvas) {
         if(!this.active) return;
         
